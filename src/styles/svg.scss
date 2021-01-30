@@ -1,0 +1,40 @@
+@import 'colors';
+
+.svg {
+  $self: &;
+
+  &-object {
+    fill: none;
+    stroke: $normal-object-color;
+    stroke-width: 2;
+    transition: stroke .15s ease-in-out;
+
+    &_selected {
+      stroke: $selected-object-color;
+    }
+
+    &_drawing {
+      stroke: $drawing-object-color;
+    }
+  }
+
+  &-hover-area {
+    fill: none;
+    stroke-opacity: 0;
+    stroke-width: 20;
+    stroke: $normal-object-color;
+    cursor: pointer;
+  }
+
+  &-group {
+    &:not(&_no-hover):hover > #{$self}-object:not(#{$self}-object_selected) {
+      stroke: $highlighted-object-color;
+    }
+  }
+
+  &-cross > line {
+    fill: none;
+    stroke-width: 2;
+    stroke: $cross-color;
+  }
+}
