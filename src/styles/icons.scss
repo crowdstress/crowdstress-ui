@@ -1,0 +1,19 @@
+@mixin icon-wrapper($value) {
+  $size: ($value / 16.0) + 0rem;
+
+  width: $size;
+  height: $size;
+  min-width: $size;
+  min-height: $size;
+
+  svg {
+    max-width: 100%;
+    max-height: 100%;
+    overflow: visible;
+  }
+}
+
+.icon-wrapper-s { @include icon-wrapper(16); }
+.icon-wrapper-m { @include icon-wrapper(24); }
+
+.icon-black { fill: black }

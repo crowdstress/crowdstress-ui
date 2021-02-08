@@ -12,10 +12,11 @@ import {
   setParams
 } from '@/store/editor/params';
 import { useEffect, useState } from 'react';
-import { DrawingObjectPoint } from '@/models/drawingObject';
+import { DrawingObject, DrawingObjectPoint } from '@/models/drawingObject';
 import { getPointCoords } from '@/utils/getPointCoords';
 import { SVGCross } from '@/components/svg/SVGCross';
 import { DEFAULT_CROSS_SIZE, DRAWING_OBJECT_ID } from '@/config';
+import { LayerEvent } from '@/components/editor/props';
 
 export const ObjectsLayer: React.FC = () => {
   const tool = useSelector(getTool);
@@ -28,42 +29,67 @@ export const ObjectsLayer: React.FC = () => {
   const [points, setPoints] = useState<DrawingObjectPoint[]>([]);
   const [cursorPosition, setCursorPosition] = useState<DrawingObjectPoint | null>(null);
 
-  const handleMouseMove = ({ clientX, clientY }: React.MouseEvent<HTMLDivElement>): void => {
-    const point = getPointCoords(clientX, clientY, {
+  const handleMouseMove = ({ x, y }: LayerEvent): void => {
+    const point = getPointCoords(x, y, {
       snapToGrid,
       gridSize,
     });
     setCursorPosition(point);
   };
 
-  const handleMouseDown = ({ clientX, clientY }: React.MouseEvent<HTMLDivElement>): void => {
+  const handleMouseDown = ({ x, y }: LayerEvent): void => {
     if (tool === 'cursor' || isLocked) return;
 
-    const point = getPointCoords(clientX, clientY, {
+    const point = getPointCoords(x, y, {
       snapToGrid,
       gridSize,
     });
 
-    dispatch(setParams({ drawing: true }));
+    if (!drawing) dispatch(setParams({ drawing: true }));
     setPoints([...points, point]);
+  };
+
+  const handleRightClick = (): void => {
+    if (drawing) dispatch(setParams({ drawing: false }));
+    if (points.length) setPoints([]);
   };
 
   useEffect(() => {
     if (tool === 'cursor') return;
 
-    if (points.length === 2 && tool === 'line') {
-      dispatch(addObject({
-        id: Date.now().toString(),
-        type: tool,
-        points,
-        state: 'done',
-      }));
+    const isLineDone = points.length === 2 && tool === 'line';
+    const isRectOrEllipseDone = points.length === 2 && (tool === 'rect' || tool === 'ellipse');
+    const isQCurveDone = points.length === 3 && tool === 'qcurve';
+
+    const object: DrawingObject = {
+      id: Date.now().toString(),
+      type: tool,
+      points,
+      state: 'done',
+    };
+
+    if (isRectOrEllipseDone) {
+      dispatch(addObject(object));
       dispatch(setParams({ drawing: false }));
       setPoints([]);
+      return;
     }
-  }, [points, tool]);
 
-  return <Layer onMouseMove={handleMouseMove} onMouseDown={handleMouseDown}>
+    if (isLineDone || isQCurveDone) {
+      dispatch(addObject(object));
+      setPoints(points.slice(-1));
+    }
+  }, [points]);
+
+  useEffect(() => {
+    if (points.length) setPoints([]);
+  }, [tool]);
+
+  return <Layer
+    onMouseMove={handleMouseMove}
+    onMouseDown={handleMouseDown}
+    onRightClick={handleRightClick}
+  >
     { objects.map((object, index) => <SVGObject key={`object-${index}`} object={object} />) }
     {
       drawing && cursorPosition && tool !== 'cursor' &&

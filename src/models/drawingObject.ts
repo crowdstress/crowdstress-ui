@@ -1,4 +1,4 @@
-export const drawingObjectTypes = ['line', 'rect', 'ellipse', 'arc'] as const;
+export const drawingObjectTypes = ['line', 'rect', 'ellipse', 'qcurve'] as const;
 
 export type DrawingObjectType = typeof drawingObjectTypes[number];
 export type DrawingObjectPoint = readonly [number, number];

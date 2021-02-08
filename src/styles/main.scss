@@ -4,3 +4,15 @@
   outline: none;
   border: none;
 }
+
+button {
+  background: transparent;
+  cursor: pointer;
+}
+
+.square {
+  &:before {
+    content: '';
+    padding-top: 100%;
+  }
+}

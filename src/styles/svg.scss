@@ -3,6 +3,13 @@
 .svg {
   $self: &;
 
+  &-helper {
+    fill: none;
+    stroke: $normal-object-color;
+    stroke-width: .75;
+    stroke-dasharray: 8 8;
+  }
+
   &-object {
     fill: none;
     stroke: $normal-object-color;
@@ -23,12 +30,19 @@
     stroke-opacity: 0;
     stroke-width: 20;
     stroke: $normal-object-color;
-    cursor: pointer;
   }
 
   &-group {
-    &:not(&_no-hover):hover > #{$self}-object:not(#{$self}-object_selected) {
-      stroke: $highlighted-object-color;
+    &:hover {
+      cursor: pointer;
+
+      & > #{$self}-object:not(#{$self}-object_selected) {
+        stroke: $highlighted-object-color;
+      }
+    }
+
+    &_no-hover {
+      pointer-events: none;
     }
   }
 

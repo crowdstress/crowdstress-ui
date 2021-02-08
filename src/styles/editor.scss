@@ -1,5 +1,52 @@
+@import 'colors';
+@import 'layout-vars';
+
 .editor {
   position: relative;
   width: 100vw;
   height: 100vh;
+
+  &-layout {
+    height: 100vh;
+    width: 100vw;
+    display: grid;
+    grid-template-columns: $toolbar-width 1fr;
+    grid-template-rows: 4em 1fr;
+    grid-gap: 0;
+    grid-template-areas:
+    "top-menu top-menu"
+    "toolbar canvas";
+  }
+
+  &__top-menu {
+    grid-area: top-menu;
+    border-bottom: 1px solid $gray;
+    background: $light-gray;
+
+    &-item {
+      cursor: pointer;
+      padding: .5rem .75rem;
+      background: transparent;
+      transition: background .15s ease-in-out;
+      border-radius: .2rem;
+
+      &:hover {
+        background: $gray;
+      }
+    }
+  }
+
+  &__toolbar {
+    grid-area: toolbar;
+    border-right: 1px solid $gray;
+    background: $light-gray;
+    display: flex;
+    flex-direction: column;
+    padding: .5rem;
+  }
+
+  &__canvas {
+    position: relative;
+    grid-area: canvas;
+  }
 }
