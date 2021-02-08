@@ -1,6 +1,9 @@
 import { Action, ActionCreator, RootSelector } from '@/models/store';
 import { DrawingObject } from '@/models/drawingObject';
 import { Reducer } from 'redux';
+import { createSelector } from 'reselect';
+import { Undoable } from '@/models/undoable';
+import { createEqualSelector } from '@/store/createEqualSelector';
 
 export const ADD_OBJECT = 'editor/ADD_OBJECT' as const;
 
@@ -27,7 +30,11 @@ export const objects: Reducer<DrawingObject[], AddObjectAction> =
     return state;
   };
 
-export const getObjects: RootSelector<DrawingObject[]> = state => state.editor.objects.present;
-export const getClearAbility: RootSelector<boolean> = state => state.editor.objects.present.length > 0;
-export const getUndoAbility: RootSelector<boolean> = state => state.editor.objects.past.length > 0;
-export const getRedoAbility: RootSelector<boolean> = state => state.editor.objects.future.length > 0;
+export const getObjects: RootSelector<Undoable<DrawingObject[]>> = state => state.editor.objects;
+export const getPresentObjects = createEqualSelector(getObjects, objects => objects.present);
+export const getPastObjects = createEqualSelector(getObjects, objects => objects.past);
+export const getFutureObjects = createEqualSelector(getObjects, objects => objects.future);
+export const getResetAbility = createSelector(getPresentObjects, objects => objects.length > 0);
+export const getUndoAbility = createSelector(getPastObjects, objects => objects.length > 0);
+export const getRedoAbility = createSelector(getFutureObjects, objects => objects.length > 0);
+export const getRunAbility = createSelector(getPresentObjects, objects => objects.length > 0);

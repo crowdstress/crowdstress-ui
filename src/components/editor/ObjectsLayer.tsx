@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addObject, getObjects } from '@/store/editor/objects';
+import { addObject, getPresentObjects } from '@/store/editor/objects';
 import { Layer } from '@/components/editor/Layer';
 import { SVGObject } from '@/components/svg/SVGObject';
 import { getTool } from '@/store/editor/tool';
@@ -24,7 +24,7 @@ export const ObjectsLayer: React.FC = () => {
   const isLocked = useSelector(getIsLocked);
   const drawing = useSelector(getDrawing);
   const gridSize = useSelector(getGridSize);
-  const objects = useSelector(getObjects);
+  const objects = useSelector(getPresentObjects);
   const dispatch = useDispatch();
   const [points, setPoints] = useState<DrawingObjectPoint[]>([]);
   const [cursorPosition, setCursorPosition] = useState<DrawingObjectPoint | null>(null);

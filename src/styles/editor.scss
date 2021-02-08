@@ -24,7 +24,6 @@
     grid-area: menubar;
     border-bottom: 1px solid $gray;
     background: $light-gray;
-    padding: .5rem;
   }
 
   &__toolbar {
@@ -33,7 +32,6 @@
     background: $light-gray;
     display: flex;
     flex-direction: column;
-    padding: .5rem;
   }
 
   &__canvas {

@@ -4,10 +4,11 @@ import IconSave from '@/assets/svg/menu/save.svg';
 import IconUndo from '@/assets/svg/menu/undo.svg';
 import IconRedo from '@/assets/svg/menu/redo.svg';
 import IconClear from '@/assets/svg/menu/clear.svg';
+import IconRun from '@/assets/svg/menu/run.svg';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  getClearAbility,
-  getRedoAbility,
+  getResetAbility,
+  getRedoAbility, getRunAbility,
   getUndoAbility
 } from '@/store/editor/objects';
 import { getClassName } from '@/utils/getClassName';
@@ -21,41 +22,49 @@ import {
 } from '@/store/undoable';
 import { Action } from '@/models/store';
 
+interface MenubarButtonProps {
+  enabled?: boolean;
+  onClick?: () => void;
+}
+
+const MenubarButton: React.FC<MenubarButtonProps> =
+  ({ enabled = true, onClick, children }) =>
+    <button
+      className={getClassName('menubar__item', enabled ? '' : 'menubar__item_disabled')}
+      onClick={onClick}
+      disabled={!enabled}
+    >
+      <div className="icon-wrapper-m">
+        {children}
+      </div>
+    </button>;
+
 export const Menubar: React.FC = () => {
   const canUndo = useSelector(getUndoAbility);
   const canRedo = useSelector(getRedoAbility);
-  const canClear = useSelector(getClearAbility);
+  const canReset = useSelector(getResetAbility);
+  const canRun = useSelector(getRunAbility);
   const dispatch = useDispatch();
 
-  return <React.Fragment>
-    <button className="menubar__item">
-      <div className="icon-wrapper-m">
+  return <div className="menubar">
+    <div className="flx-aic">
+      <MenubarButton>
         <IconSave className="icon-black" />
-      </div>
-    </button>
-    <button
-      className={getClassName('menubar__item', canUndo ? '' : 'menubar__item_disabled')}
-      onClick={(): Action<typeof UNDO> => dispatch(undo())}
-    >
-      <div className="icon-wrapper-m">
+      </MenubarButton>
+      <MenubarButton enabled={canUndo} onClick={(): Action<typeof UNDO> => dispatch(undo())}>
         <IconUndo className="icon-black" />
-      </div>
-    </button>
-    <button
-      className={getClassName('menubar__item', canRedo ? '' : 'menubar__item_disabled')}
-      onClick={(): Action<typeof REDO> => dispatch(redo())}
-    >
-      <div className="icon-wrapper-m">
+      </MenubarButton>
+      <MenubarButton enabled={canRedo} onClick={(): Action<typeof REDO> => dispatch(redo())}>
         <IconRedo className="icon-black" />
-      </div>
-    </button>
-    <button
-      className={getClassName('menubar__item', canClear ? '' : 'menubar__item_disabled')}
-      onClick={(): Action<typeof RESET> => dispatch(reset())}
-    >
-      <div className="icon-wrapper-m">
+      </MenubarButton>
+      <MenubarButton enabled={canReset} onClick={(): Action<typeof RESET> => dispatch(reset())}>
         <IconClear className="icon-black" />
-      </div>
-    </button>
-  </React.Fragment>;
+      </MenubarButton>
+    </div>
+    <div className="flx-aic">
+      <MenubarButton enabled={canRun}>
+        <IconRun className="icon-black" />
+      </MenubarButton>
+    </div>
+  </div>;
 };
