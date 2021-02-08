@@ -2,11 +2,13 @@ import * as React from 'react';
 import '@/styles/layer.scss';
 import { useRef } from 'react';
 import { LayerProps } from '@/components/editor/props';
+import { getClassName } from '@/utils/getClassName';
 
 type ReactLayerEvent = React.MouseEvent<HTMLDivElement>;
 
 export const Layer: React.FC<LayerProps> =
   ({
+    top,
     onMouseMove,
     onMouseDown,
     onMouseUp,
@@ -59,7 +61,7 @@ export const Layer: React.FC<LayerProps> =
 
     return <div
       ref={layer}
-      className="layer"
+      className={getClassName('layer', top ? 'layer_top' : '')}
       onMouseMove={handleMouseMove}
       onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}

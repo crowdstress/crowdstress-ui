@@ -6,6 +6,7 @@ import { getSnapToGrid } from '@/store/editor/params';
 import { GridLayer } from '@/components/editor/GridLayer';
 import { Toolbar } from '@/components/editor/Toolbar';
 import { Menubar } from '@/components/editor/Menubar';
+import { HumansLayer } from '@/components/editor/HumansLayer';
 
 export const Editor: React.FC = () => {
   const snapToGrid = useSelector(getSnapToGrid);
@@ -19,6 +20,7 @@ export const Editor: React.FC = () => {
     </div>
     <div className="editor__canvas">
       { snapToGrid && <GridLayer /> }
+      <HumansLayer />
       <ObjectsLayer />
     </div>
   </div>;

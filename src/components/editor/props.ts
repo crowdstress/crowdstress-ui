@@ -4,6 +4,7 @@ export interface LayerEvent {
 }
 
 export interface LayerProps {
+  top?: boolean;
   onMouseMove?: (e: LayerEvent) => void;
   onMouseDown?: (e: LayerEvent) => void;
   onMouseUp?: (e: LayerEvent) => void;

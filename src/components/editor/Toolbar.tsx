@@ -10,6 +10,7 @@ import IconLine from '@/assets/svg/tools/line.svg';
 import IconRect from '@/assets/svg/tools/rect.svg';
 import IconEllipse from '@/assets/svg/tools/ellipse.svg';
 import IconSpline from '@/assets/svg/tools/spline.svg';
+import IconHuman from '@/assets/svg/tools/human.svg';
 import IconGrid from '@/assets/svg/params/grid.svg';
 import IconNodes from '@/assets/svg/params/nodes.svg';
 import { EditorParams } from '@/models/editor';
@@ -25,6 +26,7 @@ export const ToolIcon: React.FC<ToolIconProps> = ({ tool, className }) => {
   if (tool === 'rect') return <IconRect className={className} />;
   if (tool === 'ellipse') return <IconEllipse className={className} />;
   if (tool === 'qcurve') return <IconSpline className={className} />;
+  if (tool === 'human') return <IconHuman className={className} />;
   return null;
 };
 

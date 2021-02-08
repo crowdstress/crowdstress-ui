@@ -55,7 +55,7 @@ export const ObjectsLayer: React.FC = () => {
   };
 
   useEffect(() => {
-    if (tool === 'cursor') return;
+    if (tool === 'cursor' || tool === 'human') return;
 
     const isLineDone = points.length === 2 && tool === 'line';
     const isRectOrEllipseDone = points.length === 2 && (tool === 'rect' || tool === 'ellipse');
@@ -92,7 +92,7 @@ export const ObjectsLayer: React.FC = () => {
   >
     { objects.map((object, index) => <SVGObject key={`object-${index}`} object={object} />) }
     {
-      drawing && cursorPosition && tool !== 'cursor' &&
+      drawing && cursorPosition && tool !== 'cursor' && tool !== 'human' &&
       <SVGObject object={{
         id: DRAWING_OBJECT_ID,
         type: tool,
@@ -100,6 +100,9 @@ export const ObjectsLayer: React.FC = () => {
         points: [...points, cursorPosition],
       }} />
     }
-    { cursorPosition && tool !== 'cursor' && <SVGCross position={cursorPosition} size={DEFAULT_CROSS_SIZE} /> }
+    {
+      cursorPosition && tool !== 'cursor' && tool !== 'human' &&
+      <SVGCross position={cursorPosition} size={DEFAULT_CROSS_SIZE} />
+    }
   </Layer>;
 };
