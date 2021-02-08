@@ -5,17 +5,14 @@ import { useSelector } from 'react-redux';
 import { getSnapToGrid } from '@/store/editor/params';
 import { GridLayer } from '@/components/editor/GridLayer';
 import { Toolbar } from '@/components/editor/Toolbar';
+import { Menubar } from '@/components/editor/Menubar';
 
 export const Editor: React.FC = () => {
   const snapToGrid = useSelector(getSnapToGrid);
 
   return <div className="editor-layout">
-    <div className="editor__top-menu">
-      <div className="flx-aic">
-        <button className="editor__top-menu-item">File</button>
-        <button className="editor__top-menu-item">Edit</button>
-        <button className="editor__top-menu-item">View</button>
-      </div>
+    <div className="editor__menubar">
+      <Menubar />
     </div>
     <div className="editor__toolbar">
       <Toolbar />

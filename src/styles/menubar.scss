@@ -1,0 +1,21 @@
+@import 'colors';
+
+.menubar {
+  &__item {
+    cursor: pointer;
+    padding: .5rem .75rem;
+    background: transparent;
+    transition: background .15s ease-in-out;
+    border-radius: .2rem;
+    margin-right: .5rem;
+
+    &:hover {
+      background: $gray;
+    }
+
+    &_disabled {
+      pointer-events: none;
+      opacity: .25;
+    }
+  }
+}

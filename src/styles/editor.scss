@@ -14,26 +14,17 @@
     grid-template-rows: 4em 1fr;
     grid-gap: 0;
     grid-template-areas:
-    "top-menu top-menu"
+    "menubar menubar"
     "toolbar canvas";
   }
 
-  &__top-menu {
-    grid-area: top-menu;
+  &__menubar {
+    display: flex;
+    align-items: stretch;
+    grid-area: menubar;
     border-bottom: 1px solid $gray;
     background: $light-gray;
-
-    &-item {
-      cursor: pointer;
-      padding: .5rem .75rem;
-      background: transparent;
-      transition: background .15s ease-in-out;
-      border-radius: .2rem;
-
-      &:hover {
-        background: $gray;
-      }
-    }
+    padding: .5rem;
   }
 
   &__toolbar {

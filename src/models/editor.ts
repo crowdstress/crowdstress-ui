@@ -13,5 +13,5 @@ export interface EditorParams {
 export interface Editor {
   readonly params: EditorParams;
   readonly tool: Tool;
-  readonly objects: DrawingObject[];
+  readonly objects: Undoable<DrawingObject[]>;
 }

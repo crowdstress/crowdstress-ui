@@ -17,16 +17,17 @@ export const defaultObjectsState: DrawingObject[] = [];
 
 export const objects: Reducer<DrawingObject[], AddObjectAction> =
   (state = defaultObjectsState, action) => {
-    const { type, payload } = action;
-
-    if (type === ADD_OBJECT) {
+    if (action.type === ADD_OBJECT) {
       return [
         ...state,
-        payload,
+        action.payload,
       ];
     }
 
     return state;
   };
 
-export const getObjects: RootSelector<DrawingObject[]> = state => state.editor.objects;
+export const getObjects: RootSelector<DrawingObject[]> = state => state.editor.objects.present;
+export const getClearAbility: RootSelector<boolean> = state => state.editor.objects.present.length > 0;
+export const getUndoAbility: RootSelector<boolean> = state => state.editor.objects.past.length > 0;
+export const getRedoAbility: RootSelector<boolean> = state => state.editor.objects.future.length > 0;
