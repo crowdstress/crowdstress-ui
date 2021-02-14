@@ -10,6 +10,7 @@ import { getDrawing } from '@/store/editor/params';
 import { getTool } from '@/store/editor/tool';
 import { SVGEllipse } from '@/components/svg/SVGEllipse';
 import { SVGQCurve } from '@/components/svg/SVGQCurve';
+import { SVGSeparator } from '@/components/svg/SVGSeparator';
 
 interface SVGObjectProps {
   object: DrawingObject;
@@ -43,6 +44,7 @@ export const SVGObject: React.FC<SVGObjectProps> = ({ object }) => {
   if (type === 'rect') return <SVGRect {...props} />;
   if (type === 'ellipse') return <SVGEllipse {...props} />;
   if (type === 'qcurve') return <SVGQCurve {...props} />;
+  if (type === 'separator') return <SVGSeparator {...props} />;
 
   return null;
 };

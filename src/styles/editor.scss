@@ -5,10 +5,18 @@
   position: relative;
   width: 100vw;
   height: 100vh;
+  display: flex;
+  flex-direction: column;
 
-  &-layout {
-    height: 100vh;
-    width: 100vw;
+  &__loader {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__layout {
+    flex: 1;
     display: grid;
     grid-template-columns: $toolbar-width 1fr;
     grid-template-rows: 4em 1fr;

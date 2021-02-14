@@ -58,7 +58,7 @@ export const ObjectsLayer: React.FC = () => {
     if (tool === 'cursor' || tool === 'human') return;
 
     const isLineDone = points.length === 2 && tool === 'line';
-    const isRectOrEllipseDone = points.length === 2 && (tool === 'rect' || tool === 'ellipse');
+    const isRectEllipseSeparatorDone = points.length === 2 && (tool === 'rect' || tool === 'ellipse' || tool === 'separator');
     const isQCurveDone = points.length === 3 && tool === 'qcurve';
 
     const object: DrawingObject = {
@@ -68,7 +68,7 @@ export const ObjectsLayer: React.FC = () => {
       state: 'done',
     };
 
-    if (isRectOrEllipseDone) {
+    if (isRectEllipseSeparatorDone) {
       dispatch(addObject(object));
       dispatch(setParams({ drawing: false }));
       setPoints([]);

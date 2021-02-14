@@ -5,14 +5,42 @@ import { getTool } from '@/store/editor/tool';
 import { LayerEvent } from '@/components/editor/props';
 import { useState } from 'react';
 import { Human } from '@/models/human';
-import { DrawingObjectPoint } from '@/models/drawingObject';
+import { DrawingObjectPoint, drawingObjectTypes } from '@/models/drawingObject';
 import { DEFAULT_HUMAN_DISTANCE, HUMAN_PANIC_HSL, HUMAN_SIZE } from '@/config';
 import { randomInt } from '@/utils/randomInt';
+import { useLoadedWasm } from '@/hooks/useWasm';
+import { getPresentObjects } from '@/store/editor/objects';
 
 export const HumansLayer: React.FC = () => {
   const tool = useSelector(getTool);
+  const objects = useSelector(getPresentObjects);
   const [humans, setHumans] = useState<Human[]>([]);
   const [drawing, setDrawing] = useState(false);
+  const { wasm } = useLoadedWasm();
+
+  const render = (app: any): void => {
+    if (!wasm) return;
+    const { tick } = wasm;
+
+    const result = tick(app);
+    setHumans(result.humans);
+
+    requestAnimationFrame(() => render(result));
+  };
+
+  const init = (): void => {
+    if (!wasm) return;
+    const { init } = wasm;
+
+    const wasm_objects = objects.map(object => ({
+      ...object,
+      object_type: drawingObjectTypes.indexOf(object.type),
+    }));
+
+    const app = init(humans, wasm_objects);
+
+    requestAnimationFrame(() => render(app));
+  };
 
   const handleMouseDown = ({ x, y }: LayerEvent): void => {
     setDrawing(true);
@@ -49,6 +77,7 @@ export const HumansLayer: React.FC = () => {
     onMouseDown={handleMouseDown}
     onMouseUp={handleMouseUp}
     onMouseMove={handleMouseMove}
+    onRightClick={init}
   >
     {
       humans.map(({ coords, panic }, index) => {

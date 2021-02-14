@@ -8,6 +8,10 @@
     stroke: $normal-object-color;
     stroke-width: .75;
     stroke-dasharray: 8 8;
+
+    &_drawing {
+      stroke: $drawing-object-color;
+    }
   }
 
   &-object {
