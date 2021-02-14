@@ -32,12 +32,17 @@ export const HumansLayer: React.FC = () => {
     if (!wasm) return;
     const { init } = wasm;
 
+    const wasm_humans = humans.map(human => ({
+      ...human,
+      passed_exits: [],
+    }));
+
     const wasm_objects = objects.map(object => ({
       ...object,
       object_type: drawingObjectTypes.indexOf(object.type),
     }));
 
-    const app = init(humans, wasm_objects);
+    const app = init(wasm_humans, wasm_objects);
 
     requestAnimationFrame(() => render(app));
   };

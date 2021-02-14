@@ -33,3 +33,11 @@ pub fn is_lines_intersects(line1: Section, line2: Section) -> bool {
         - (line1[1][1] - line1[0][1]) * (line2[1][0] - line1[0][0]);
     vector1 * vector2 <= 0.0 && vector3 * vector4 <= 0.0
 }
+
+pub fn is_point_belongs_to_line(line: Section, point: Point) -> bool {
+    let mp1 = Vector::from_points(&point, &line[0]);
+    let mp2 = Vector::from_points(&point, &line[1]);
+    let dot = mp1.dot(&mp2);
+    let distance = get_vector_to_line(line, point).get_length();
+    dot <= 0.0 && distance <= 1.0
+}

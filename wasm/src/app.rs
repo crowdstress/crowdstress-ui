@@ -1,10 +1,9 @@
+use crate::behaviour::Exit;
 use crate::human::Human;
 use crate::object::DrawingObject;
-use crate::primitives::Section;
 use crate::vector::Vector;
 use crate::wall::Wall;
 use crate::{behaviour, config, geometry, physics};
-use wasm_bindgen::prelude::*;
 use wasm_bindgen::JsValue;
 
 #[derive(Serialize, Deserialize)]
@@ -12,7 +11,7 @@ pub struct App {
     started: bool,
     humans: Vec<Human>,
     walls: Vec<Wall>,
-    exits: Vec<Section>,
+    exits: Vec<Exit>,
 }
 
 impl App {
@@ -24,10 +23,13 @@ impl App {
             .map(|object| Wall::from_object(object))
             .flatten()
             .collect();
-        let exits: Vec<Section> = objects
+        let exits: Vec<Exit> = objects
             .iter()
             .filter(|object| object.object_type == 4)
-            .map(|object| [object.points[0], object.points[1]])
+            .map(|object| Exit {
+                id: String::from(&object.id),
+                section: [object.points[0], object.points[1]],
+            })
             .collect();
 
         App {
@@ -43,8 +45,25 @@ impl App {
 
         for human in &self.humans {
             let mut human_vectors: Vec<Vector> = Vec::new();
+            let mut passed_exits = human.passed_exits.clone();
 
-            let target = behaviour::get_target(human, &self.exits);
+            for exit in &self.exits {
+                let is_passed = geometry::is_point_belongs_to_line(exit.section, human.coords);
+                if is_passed && !passed_exits.contains(&exit.id) {
+                    passed_exits.push(String::from(&exit.id));
+                }
+            }
+
+            let possible_exits: Vec<Exit> = self
+                .exits
+                .iter()
+                .filter(|exit| !passed_exits.contains(&exit.id))
+                .map(|exit| Exit {
+                    id: String::from(&exit.id),
+                    section: exit.section,
+                })
+                .collect();
+            let target = behaviour::get_target(human, &possible_exits);
             human_vectors.push(physics::f1(human, &target));
 
             for wall in &self.walls {
@@ -85,6 +104,7 @@ impl App {
                 } else {
                     human.panic
                 },
+                passed_exits,
             });
         }
 

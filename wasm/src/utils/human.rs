@@ -4,4 +4,5 @@ use crate::primitives::Point;
 pub struct Human {
     pub coords: Point,
     pub panic: u8,
+    pub passed_exits: Vec<String>,
 }

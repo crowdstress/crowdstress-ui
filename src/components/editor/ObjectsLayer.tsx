@@ -93,12 +93,13 @@ export const ObjectsLayer: React.FC = () => {
     { objects.map((object, index) => <SVGObject key={`object-${index}`} object={object} />) }
     {
       drawing && cursorPosition && tool !== 'cursor' && tool !== 'human' &&
-      <SVGObject object={{
-        id: DRAWING_OBJECT_ID,
-        type: tool,
-        state: 'in-progress',
-        points: [...points, cursorPosition],
-      }} />
+      <SVGObject
+        object={{
+          id: DRAWING_OBJECT_ID,
+          type: tool,
+          state: 'in-progress',
+          points: [...points, cursorPosition],
+        }} />
     }
     {
       cursorPosition && tool !== 'cursor' && tool !== 'human' &&
