@@ -8,8 +8,9 @@ import IconRun from '@/assets/svg/menu/run.svg';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   getResetAbility,
-  getRedoAbility, getRunAbility,
-  getUndoAbility
+  getRedoAbility,
+  getRunAbility,
+  getUndoAbility, getPresentObjects
 } from '@/store/editor/objects';
 import { getClassName } from '@/utils/getClassName';
 import {
@@ -21,6 +22,8 @@ import {
   undo
 } from '@/store/undoable';
 import { Action } from '@/models/store';
+import { rasterObjects } from '@/utils/rasterObjects';
+import { getLayerSize } from '@/store/editor/params';
 
 interface MenubarButtonProps {
   enabled?: boolean;
@@ -40,11 +43,19 @@ const MenubarButton: React.FC<MenubarButtonProps> =
     </button>;
 
 export const Menubar: React.FC = () => {
+  const objects = useSelector(getPresentObjects);
+  const layerSize = useSelector(getLayerSize);
   const canUndo = useSelector(getUndoAbility);
   const canRedo = useSelector(getRedoAbility);
   const canReset = useSelector(getResetAbility);
   const canRun = useSelector(getRunAbility);
   const dispatch = useDispatch();
+
+  const run = (): void => {
+    const { width, height } = layerSize;
+    const raster = rasterObjects(objects, width, height);
+    console.log(raster);
+  };
 
   return <div className="menubar">
     <div className="flx-aic">
@@ -62,7 +73,7 @@ export const Menubar: React.FC = () => {
       </MenubarButton>
     </div>
     <div className="flx-aic">
-      <MenubarButton enabled={canRun}>
+      <MenubarButton enabled={canRun} onClick={run}>
         <IconRun className="icon-black" />
       </MenubarButton>
     </div>

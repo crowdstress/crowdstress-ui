@@ -2,7 +2,7 @@ import { Action, ActionCreator, RootSelector } from '@/models/store';
 import { EditorParams } from '@/models/editor';
 import { Reducer } from 'redux';
 import { createSelector } from 'reselect';
-import { DEFAULT_GRID_SIZE } from '@/config';
+import { DEFAULT_GRID_SIZE, DEFAULT_LAYER_SIZE } from '@/config';
 
 const SET_PARAMS = 'editor/SET_PARAMS' as const;
 
@@ -21,6 +21,7 @@ export const defaultEditorParams: EditorParams = {
   isLocked: false,
   drawing: false,
   gridSize: DEFAULT_GRID_SIZE,
+  layerSize: DEFAULT_LAYER_SIZE,
 };
 
 export const params: Reducer<EditorParams, SetParamsAction> =
@@ -43,3 +44,4 @@ export const getSnapToNodes = createSelector(getParams, params => params.snapToN
 export const getIsLocked = createSelector(getParams, params => params.isLocked);
 export const getDrawing = createSelector(getParams, params => params.drawing);
 export const getGridSize = createSelector(getParams, params => params.gridSize);
+export const getLayerSize = createSelector(getParams, params => params.layerSize);

@@ -1,14 +1,15 @@
 import * as React from 'react';
 import '@/styles/layer.scss';
-import { useRef } from 'react';
-import { LayerProps } from '@/components/editor/props';
+import { useEffect, useRef } from 'react';
 import { getClassName } from '@/utils/getClassName';
+import { LayerProps } from '@/models/layer';
 
 type ReactLayerEvent = React.MouseEvent<HTMLDivElement>;
 
 export const Layer: React.FC<LayerProps> =
   ({
     top,
+    onMount,
     onMouseMove,
     onMouseDown,
     onMouseUp,
@@ -58,6 +59,15 @@ export const Layer: React.FC<LayerProps> =
         y: clientY - top,
       });
     };
+
+    useEffect(() => {
+      if (!layer.current || !onMount) return;
+
+      onMount({
+        width: layer.current.offsetWidth,
+        height: layer.current.offsetHeight,
+      });
+    }, []);
 
     return <div
       ref={layer}

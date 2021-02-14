@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Layer } from '@/components/editor/Layer';
 import { useSelector } from 'react-redux';
 import { getTool } from '@/store/editor/tool';
-import { LayerEvent } from '@/components/editor/props';
+import { LayerEvent } from '@/models/layer';
 import { useState } from 'react';
 import { Human } from '@/models/human';
 import { DrawingObjectPoint, drawingObjectTypes } from '@/models/drawingObject';

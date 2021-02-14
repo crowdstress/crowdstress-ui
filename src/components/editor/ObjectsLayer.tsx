@@ -16,7 +16,7 @@ import { DrawingObject, DrawingObjectPoint } from '@/models/drawingObject';
 import { getPointCoords } from '@/utils/getPointCoords';
 import { SVGCross } from '@/components/svg/SVGCross';
 import { DEFAULT_CROSS_SIZE, DRAWING_OBJECT_ID } from '@/config';
-import { LayerEvent } from '@/components/editor/props';
+import { LayerEvent, LayerSize } from '@/models/layer';
 
 export const ObjectsLayer: React.FC = () => {
   const tool = useSelector(getTool);
@@ -28,6 +28,10 @@ export const ObjectsLayer: React.FC = () => {
   const dispatch = useDispatch();
   const [points, setPoints] = useState<DrawingObjectPoint[]>([]);
   const [cursorPosition, setCursorPosition] = useState<DrawingObjectPoint | null>(null);
+
+  const handleMount = (layerSize: LayerSize): void => {
+    dispatch(setParams({ layerSize }));
+  };
 
   const handleMouseMove = ({ x, y }: LayerEvent): void => {
     const point = getPointCoords(x, y, {
@@ -86,6 +90,7 @@ export const ObjectsLayer: React.FC = () => {
   }, [tool]);
 
   return <Layer
+    onMount={handleMount}
     onMouseMove={handleMouseMove}
     onMouseDown={handleMouseDown}
     onRightClick={handleRightClick}
