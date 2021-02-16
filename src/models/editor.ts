@@ -2,6 +2,7 @@ import { Tool } from '@/models/tool';
 import { Undoable } from '@/models/undoable';
 import { DrawingObject } from '@/models/drawingObject';
 import { LayerSize } from '@/models/layer';
+import { Room } from '@/models/room';
 
 export interface EditorParams {
   readonly snapToNodes: boolean;
@@ -16,4 +17,5 @@ export interface Editor {
   readonly params: EditorParams;
   readonly tool: Tool;
   readonly objects: Undoable<DrawingObject[]>;
+  readonly rooms: readonly Room[];
 }

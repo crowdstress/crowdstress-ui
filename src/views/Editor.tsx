@@ -8,6 +8,7 @@ import { Menubar } from '@/components/editor/Menubar';
 import { HumansLayer } from '@/components/editor/HumansLayer';
 import { useWasm } from '@/hooks/useWasm';
 import '@/styles/editor.scss';
+import { RoomsLayer } from '@/components/editor/RoomsLayer';
 
 export const Editor: React.FC = () => {
   const snapToGrid = useSelector(getSnapToGrid);
@@ -34,6 +35,7 @@ export const Editor: React.FC = () => {
           <div className="editor__canvas">
             { snapToGrid && <GridLayer/> }
             <HumansLayer/>
+            <RoomsLayer />
             <ObjectsLayer/>
           </div>
         </div>

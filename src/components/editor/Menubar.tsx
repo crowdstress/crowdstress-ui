@@ -22,8 +22,11 @@ import {
   undo
 } from '@/store/undoable';
 import { Action } from '@/models/store';
-import { rasterObjects } from '@/utils/rasterObjects';
 import { getLayerSize } from '@/store/editor/params';
+import { getRooms } from '@/api/handlers/objects';
+import { drawingObjectTypes } from '@/models/drawingObject';
+import { setRooms } from '@/store/editor/rooms';
+import { OPENCV_APPROXIMATE_EPS } from '@/config';
 
 interface MenubarButtonProps {
   enabled?: boolean;
@@ -51,10 +54,20 @@ export const Menubar: React.FC = () => {
   const canRun = useSelector(getRunAbility);
   const dispatch = useDispatch();
 
-  const run = (): void => {
+  const run = async (): Promise<void> => {
     const { width, height } = layerSize;
-    const raster = rasterObjects(objects, width, height);
-    console.log(raster);
+    const res = await getRooms({
+      width,
+      height,
+      epsilon: OPENCV_APPROXIMATE_EPS,
+      objects: objects.map(object => ({
+        ...object,
+        object_type: drawingObjectTypes.indexOf(object.type),
+      })),
+    });
+    if (res.__state === 'success' && res.data) {
+      dispatch(setRooms(res.data));
+    }
   };
 
   return <div className="menubar">
