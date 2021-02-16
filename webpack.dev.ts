@@ -42,6 +42,12 @@ const config: webpack.Configuration = {
     stats: 'errors-only',
     historyApiFallback: true,
     port: 8088,
+    proxy: {
+      '/api': {
+        target: 'http://localhost:8000',
+        pathRewrite: { '^/api' : '' },
+      },
+    },
   },
   optimization: {
     splitChunks: {
