@@ -10,12 +10,12 @@ import {
   getResetAbility,
   getRedoAbility,
   getRunAbility,
-  getUndoAbility, getPresentObjects
+  getUndoAbility,
+  getPresentObjects
 } from '@/store/editor/objects';
 import { getClassName } from '@/utils/getClassName';
 import {
   REDO,
-  RESET,
   UNDO,
   redo,
   reset,
@@ -54,6 +54,11 @@ export const Menubar: React.FC = () => {
   const canRun = useSelector(getRunAbility);
   const dispatch = useDispatch();
 
+  const clear = (): void => {
+    dispatch(reset());
+    dispatch(setRooms([]));
+  };
+
   const run = async (): Promise<void> => {
     const { width, height } = layerSize;
     const res = await getRooms({
@@ -81,7 +86,7 @@ export const Menubar: React.FC = () => {
       <MenubarButton enabled={canRedo} onClick={(): Action<typeof REDO> => dispatch(redo())}>
         <IconRedo className="icon-black" />
       </MenubarButton>
-      <MenubarButton enabled={canReset} onClick={(): Action<typeof RESET> => dispatch(reset())}>
+      <MenubarButton enabled={canReset} onClick={clear}>
         <IconClear className="icon-black" />
       </MenubarButton>
     </div>
