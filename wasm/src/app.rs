@@ -1,9 +1,6 @@
-use crate::behaviour::Exit;
 use crate::human::Human;
-use crate::object::DrawingObject;
-use crate::vector::Vector;
-use crate::wall::Wall;
-use crate::{behaviour, config, geometry, physics};
+use crate::{behaviour, config, physics};
+use crowdstress_common::prelude::*;
 use wasm_bindgen::JsValue;
 
 #[derive(Serialize, Deserialize)]
@@ -28,7 +25,10 @@ impl App {
             .filter(|object| object.object_type == 4)
             .map(|object| Exit {
                 id: String::from(&object.id),
-                section: [object.points[0], object.points[1]],
+                section: Section {
+                    start: object.points[0],
+                    end: object.points[1],
+                },
             })
             .collect();
 
@@ -67,8 +67,13 @@ impl App {
             human_vectors.push(physics::f1(human, &target));
 
             for wall in &self.walls {
-                let vector_to_line =
-                    geometry::get_vector_to_line([wall.start, wall.end], human.coords);
+                let vector_to_line = geometry::get_vector_to_line(
+                    Section {
+                        start: wall.start,
+                        end: wall.end,
+                    },
+                    human.coords,
+                );
                 if geometry::is_lines_intersects(
                     vector_to_line
                         .normalize()
@@ -98,7 +103,10 @@ impl App {
             let dr = a.product(config::DELTA_T.powf(2.0) * config::SCALING_FACTOR);
 
             new_humans.push(Human {
-                coords: [human.coords[0] + dr.x, human.coords[1] + dr.y],
+                coords: Point {
+                    x: human.coords.x + dr.x,
+                    y: human.coords.y + dr.y,
+                },
                 panic: if result_vector.get_length() > 800.0 {
                     100
                 } else {

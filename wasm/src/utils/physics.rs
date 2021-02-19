@@ -1,7 +1,7 @@
 use crate::config;
 use crate::human::Human;
-use crate::primitives::Point;
-use crate::vector::Vector;
+use crowdstress_common::primitives::Point;
+use crowdstress_common::vector::Vector;
 
 pub fn f1(human: &Human, target: &Point) -> Vector {
     let vector_to_target = Vector::from_points(&human.coords, target).normalize();

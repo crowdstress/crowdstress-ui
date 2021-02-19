@@ -1,4 +1,4 @@
-use crate::primitives::Point;
+use crowdstress_common::primitives::Point;
 
 #[derive(Serialize, Deserialize)]
 pub struct Human {

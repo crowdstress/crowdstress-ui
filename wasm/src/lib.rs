@@ -4,20 +4,10 @@ mod app;
 mod behaviour;
 #[path = "config.rs"]
 mod config;
-#[path = "utils/geometry.rs"]
-mod geometry;
 #[path = "utils/human.rs"]
 mod human;
-#[path = "utils/object.rs"]
-mod object;
 #[path = "utils/physics.rs"]
 mod physics;
-#[path = "utils/primitives.rs"]
-mod primitives;
-#[path = "utils/vector.rs"]
-mod vector;
-#[path = "utils/wall.rs"]
-mod wall;
 
 #[macro_use]
 extern crate serde_derive;

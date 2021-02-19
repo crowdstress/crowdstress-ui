@@ -1,15 +1,7 @@
-use crate::geometry::get_vector_to_line;
+use crate::config;
 use crate::human::Human;
-use crate::primitives::{Point, Section};
-use crate::vector::Vector;
-use crate::{config, geometry};
+use crowdstress_common::prelude::*;
 use js_sys::Math;
-
-#[derive(Serialize, Deserialize)]
-pub struct Exit {
-    pub id: String,
-    pub section: Section,
-}
 
 struct ExitExtended {
     probability: f64,
@@ -20,14 +12,13 @@ struct ExitExtended {
 pub fn get_target(human: &Human, exit_sections: &Vec<Exit>) -> Point {
     #[derive(Copy, Clone)]
     struct ExitGeometry {
-        section: Section,
         middle: Point,
         vector_to_target: Vector,
         vector_from_human: Vector,
     }
 
     if exit_sections.is_empty() {
-        return [0.0, 0.0];
+        return Point::new(0.0, 0.0);
     }
 
     let exits: Vec<ExitGeometry> = exit_sections
@@ -35,7 +26,7 @@ pub fn get_target(human: &Human, exit_sections: &Vec<Exit>) -> Point {
         .map(|exit| {
             let section_middle = geometry::get_section_middle(&exit.section);
             let vector_from_human = Vector::from_points(&human.coords, &section_middle);
-            let vector_to_target = Vector::from_points(&exit.section[0], &exit.section[1])
+            let vector_to_target = Vector::from_points(&exit.section.start, &exit.section.end)
                 .normalize()
                 .perpendicular()
                 .product(config::TARGET_FROM_EXIT_DISTANCE);
@@ -46,7 +37,6 @@ pub fn get_target(human: &Human, exit_sections: &Vec<Exit>) -> Point {
             };
             let vector_to_target = vector_to_target.product(factor);
             ExitGeometry {
-                section: exit.section,
                 middle: section_middle,
                 vector_to_target,
                 vector_from_human,
@@ -74,7 +64,10 @@ pub fn get_target(human: &Human, exit_sections: &Vec<Exit>) -> Point {
 
     let selected_exit = select_exit(&exits_extended);
 
-    selected_exit.vector_to_target.to_line(selected_exit.middle)[1]
+    selected_exit
+        .vector_to_target
+        .to_line(selected_exit.middle)
+        .end
 }
 
 fn select_exit(exits: &Vec<ExitExtended>) -> &ExitExtended {
