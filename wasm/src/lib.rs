@@ -19,12 +19,6 @@ use crate::app::App;
 use wasm_bindgen::prelude::*;
 
 #[wasm_bindgen]
-pub fn init(humans_array: &JsValue, objects_array: &JsValue) -> JsValue {
-    let app = App::init(humans_array, objects_array);
-    JsValue::from_serde(&app).unwrap()
-}
-
-#[wasm_bindgen]
 pub fn tick(app_object: JsValue) -> JsValue {
     let mut app: App = app_object.into_serde().unwrap();
     app.tick()

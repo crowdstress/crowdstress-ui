@@ -33,7 +33,7 @@ dependencies = [
 [[package]]
 name = "crowdstress-common"
 version = "0.1.0"
-source = "git+https://github.com/xyz27900/crowdstress-common.git#37fe283e90f03023002645e12dd5f966b19f248a"
+source = "git+https://github.com/xyz27900/crowdstress-common.git#fcb626335c413cb5ae3b9755f9bbc8ce29282edb"
 dependencies = [
  "serde",
  "serde_derive",

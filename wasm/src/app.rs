@@ -7,39 +7,11 @@ use wasm_bindgen::JsValue;
 pub struct App {
     started: bool,
     humans: Vec<Human>,
-    walls: Vec<Wall>,
+    walls: Vec<Section>,
     exits: Vec<Exit>,
 }
 
 impl App {
-    pub fn init(humans_array: &JsValue, objects_array: &JsValue) -> App {
-        let humans = humans_array.into_serde().unwrap();
-        let objects: Vec<DrawingObject> = objects_array.into_serde().unwrap();
-        let walls: Vec<Wall> = objects
-            .iter()
-            .map(|object| Wall::from_object(object))
-            .flatten()
-            .collect();
-        let exits: Vec<Exit> = objects
-            .iter()
-            .filter(|object| object.object_type == 4)
-            .map(|object| Exit {
-                id: String::from(&object.id),
-                section: Section {
-                    start: object.points[0],
-                    end: object.points[1],
-                },
-            })
-            .collect();
-
-        App {
-            started: false,
-            humans,
-            walls,
-            exits,
-        }
-    }
-
     pub fn tick(&mut self) -> JsValue {
         let mut new_humans: Vec<Human> = Vec::with_capacity(self.humans.len());
 
@@ -48,7 +20,7 @@ impl App {
             let mut passed_exits = human.passed_exits.clone();
 
             for exit in &self.exits {
-                let is_passed = geometry::is_point_belongs_to_line(exit.section, human.coords);
+                let is_passed = geometry::is_point_belongs_to_line(&exit.section, &human.coords);
                 if is_passed && !passed_exits.contains(&exit.id) {
                     passed_exits.push(String::from(&exit.id));
                 }
@@ -68,18 +40,18 @@ impl App {
 
             for wall in &self.walls {
                 let vector_to_line = geometry::get_vector_to_line(
-                    Section {
+                    &Section {
                         start: wall.start,
                         end: wall.end,
                     },
-                    human.coords,
+                    &human.coords,
                 );
                 if geometry::is_lines_intersects(
-                    vector_to_line
+                    &vector_to_line
                         .normalize()
                         .product(9999.0)
                         .to_line(human.coords),
-                    wall.to_line(),
+                    wall,
                 ) {
                     human_vectors.push(physics::f2w(vector_to_line));
                 }
