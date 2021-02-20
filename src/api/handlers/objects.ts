@@ -1,6 +1,8 @@
-import { GetRoomsArgs } from '@/api/objects';
-import { AxiosReply, AxiosRequestConfig, rest } from '@/utils/rest';
-import { Room } from '@/models/room';
+import { GetRoomsArgs, GetRoomsReply, GetWallsArgs, GetWallsReply } from '@/api/objects';
+import { AxiosRequestConfig, rest } from '@/utils/rest';
 
-export const getRooms = (args: GetRoomsArgs, config?: AxiosRequestConfig): AxiosReply<Room[]> =>
+export const fetchRooms = (args: GetRoomsArgs, config?: AxiosRequestConfig): GetRoomsReply =>
   rest.post('/api/rooms', args, config);
+
+export const fetchWalls = (args: GetWallsArgs, config?: AxiosRequestConfig): GetWallsReply =>
+  rest.post('/api/walls', args, config);
