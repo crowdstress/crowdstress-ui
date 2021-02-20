@@ -6,6 +6,7 @@ import { devToolsEnhancer } from 'redux-devtools-extension';
 import { defaultTool, tool } from '@/store/editor/tool';
 import { createUndoableState, undoable } from '@/store/undoable';
 import { defaultRooms, rooms } from '@/store/editor/rooms';
+import { defaultHumans, humans } from '@/store/editor/humans';
 
 const defaultState: State = {
   editor: {
@@ -13,6 +14,7 @@ const defaultState: State = {
     objects: createUndoableState(defaultObjectsState),
     rooms: defaultRooms,
     tool: defaultTool,
+    humans: defaultHumans,
   },
 };
 
@@ -22,6 +24,7 @@ const rootReducer: Reducer<State> = combineReducers({
     rooms,
     params,
     tool,
+    humans,
   }),
 });
 

@@ -4,8 +4,8 @@ import { Reducer } from 'redux';
 
 export const SET_ROOMS = 'editor/SET_ROOMS' as const;
 
-type SetRoomsAction = Action<typeof SET_ROOMS, readonly Room[]>;
-type SetRoomsActionCreator = ActionCreator<typeof SET_ROOMS, readonly Room[]>;
+type SetRoomsAction = Action<typeof SET_ROOMS, Room[]>;
+type SetRoomsActionCreator = ActionCreator<typeof SET_ROOMS, Room[]>;
 
 export const setRooms: SetRoomsActionCreator = payload => ({
   type: SET_ROOMS,
@@ -14,7 +14,7 @@ export const setRooms: SetRoomsActionCreator = payload => ({
 
 export const defaultRooms: Room[] = [];
 
-export const rooms: Reducer<readonly Room[], SetRoomsAction> =
+export const rooms: Reducer<Room[], SetRoomsAction> =
     (state = defaultRooms, action) => {
       if (action.type === SET_ROOMS) {
         return action.payload;
@@ -23,4 +23,4 @@ export const rooms: Reducer<readonly Room[], SetRoomsAction> =
       return state;
     };
 
-export const getRooms: RootSelector<readonly Room[]> = state => state.editor.rooms;
+export const getRooms: RootSelector<Room[]> = state => state.editor.rooms;

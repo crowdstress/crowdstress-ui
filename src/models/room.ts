@@ -1,6 +1,7 @@
-import { DrawingObjectPoint } from '@/models/drawingObject';
+import { DrawingObjectID, DrawingObjectPoint } from '@/models/drawingObject';
 
 export interface Room {
-  readonly id: string;
-  readonly points: readonly DrawingObjectPoint[]
+  id: string;
+  points: DrawingObjectPoint[];
+  exits: DrawingObjectID[];
 }
