@@ -7,8 +7,8 @@ export const SVGRect: React.FC<SVGObjectComponentProps> = ({ selected, onClick, 
   const { points, state } = object;
   if (points.length < 2) return null;
   const [point1, point2] = points;
-  const [x1, y1] = point1;
-  const [x2, y2] = point2;
+  const { x: x1, y: y1 } = point1;
+  const { x: x2, y: y2 } = point2;
   const dx = x2 - x1;
   const dy = y2 - y1;
   const x = dx > 0 ? x1 : x2;

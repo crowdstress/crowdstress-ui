@@ -7,8 +7,8 @@ export const SVGLine: React.FC<SVGObjectComponentProps> = ({ object, onClick, se
   const { points, state } = object;
   if (points.length < 2) return null;
   const [point1, point2] = points;
-  const [x1, y1] = point1;
-  const [x2, y2] = point2;
+  const { x: x1, y: y1 } = point1;
+  const { x: x2, y: y2 } = point2;
   const props: React.SVGProps<SVGLineElement> = {
     x1,
     y1,

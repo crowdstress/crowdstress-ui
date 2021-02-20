@@ -10,7 +10,7 @@ const SVGQCurvePaths: React.FC<SVGQCurvePathsProps> = ({ object, selected }) => 
   const { points, state } = object;
   if (points.length < 3) return null;
   const [startPoint, controlPoint, endPoint] = points;
-  const d = `M ${startPoint.join(' ')} Q ${controlPoint.join(' ')}, ${endPoint.join(' ')}`;
+  const d = `M ${startPoint.x} ${startPoint.y} Q ${controlPoint.x} ${controlPoint.y}, ${endPoint.x} ${endPoint.y}`;
   return <React.Fragment>
     <path
       className={getClassName(
@@ -25,11 +25,11 @@ const SVGQCurvePaths: React.FC<SVGQCurvePathsProps> = ({ object, selected }) => 
 };
 
 interface SVGQCurveHelpersProps {
-  points: readonly DrawingObjectPoint[]
+  points: DrawingObjectPoint[]
 }
 
 const SVGQCurveHelpers: React.FC<SVGQCurveHelpersProps> = ({ points }) => {
-  const pointsString = points.map(point => point.join(',')).join(' ');
+  const pointsString = points.map(point =>`${point.x},${point.y}`).join(' ');
   return <polyline className="svg-helper" points={pointsString} />;
 };
 

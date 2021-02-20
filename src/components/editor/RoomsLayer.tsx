@@ -17,7 +17,7 @@ export const RoomsLayer: React.FC = () => {
       rooms.map(({ id, points }) =>
         <polygon
           key={`point-${id}`}
-          points={points.map(([x, y]) => `${x},${y}`).join(' ')} fill={randomHex()}
+          points={points.map(({ x, y }) => `${x},${y}`).join(' ')} fill={randomHex()}
         />
       )
     }

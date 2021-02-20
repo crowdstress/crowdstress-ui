@@ -7,7 +7,7 @@ interface SVGCrossProps {
 }
 
 export const SVGCross: React.FC<SVGCrossProps> = ({ position, size }) => {
-  const [x, y] = position;
+  const { x, y } = position;
   const halfSize = size / 2;
 
   return <g className="svg-cross">

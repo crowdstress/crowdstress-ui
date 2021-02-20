@@ -7,26 +7,33 @@ import IconClear from '@/assets/svg/menu/clear.svg';
 import IconRun from '@/assets/svg/menu/run.svg';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  getResetAbility,
+  getPresentObjects,
   getRedoAbility,
+  getResetAbility,
   getRunAbility,
-  getUndoAbility,
-  getPresentObjects
+  getUndoAbility
 } from '@/store/editor/objects';
 import { getClassName } from '@/utils/getClassName';
 import {
   REDO,
-  UNDO,
   redo,
   reset,
+  UNDO,
   undo
 } from '@/store/undoable';
 import { Action } from '@/models/store';
 import { getLayerSize } from '@/store/editor/params';
-import { getRooms } from '@/api/handlers/objects';
-import { drawingObjectTypes } from '@/models/drawingObject';
+import { fetchRooms, fetchWalls } from '@/api/handlers/objects';
 import { setRooms } from '@/store/editor/rooms';
 import { OPENCV_APPROXIMATE_EPS } from '@/config';
+import { GetRoomsReply, GetWallsReply } from '@/api/objects';
+import { convertObjectsToRust } from '@/models/drawingObject';
+import { App } from '@/models/app';
+import { useLoadedWasm } from '@/hooks/useWasm';
+import { convertHumansToRust, Human } from '@/models/human';
+import { getHumans, setHumans } from '@/store/editor/humans';
+import { Exit } from '@/models/exit';
+import { Section } from '@/models/section';
 
 interface MenubarButtonProps {
   enabled?: boolean;
@@ -47,12 +54,14 @@ const MenubarButton: React.FC<MenubarButtonProps> =
 
 export const Menubar: React.FC = () => {
   const objects = useSelector(getPresentObjects);
+  const humans = useSelector(getHumans);
   const layerSize = useSelector(getLayerSize);
   const canUndo = useSelector(getUndoAbility);
   const canRedo = useSelector(getRedoAbility);
   const canReset = useSelector(getResetAbility);
   const canRun = useSelector(getRunAbility);
   const dispatch = useDispatch();
+  const { wasm } = useLoadedWasm();
 
   const clear = (): void => {
     dispatch(reset());
@@ -60,19 +69,72 @@ export const Menubar: React.FC = () => {
   };
 
   const run = async (): Promise<void> => {
+    const roomsRes = await processRooms();
+    if (!(roomsRes.__state === 'success' && roomsRes.data)) {
+      alert('err');
+      return;
+    }
+    dispatch(setRooms(roomsRes.data));
+
+    const resWalls = await processWalls();
+    if (!(resWalls.__state === 'success' && resWalls.data)) {
+      alert('err');
+      return;
+    }
+    const { data: walls } = resWalls;
+
+    const exits: Exit[] = objects.filter(object => object.type === 'separator').map(object => ({
+      id: object.id,
+      section: {
+        start: object.points[0],
+        end: object.points[1],
+      },
+    }));
+
+    start(humans, walls, exits);
+  };
+
+  const start = (humans: Human[], walls: Section[], exits: Exit[]): void => {
+    if (!wasm) {
+      alert('err');
+      return;
+    }
+
+    const app: App = {
+      started: true,
+      humans: convertHumansToRust(humans),
+      walls,
+      exits,
+    };
+    render(app);
+  };
+
+  const render = (app: App): void => {
+    if (!wasm) {
+      alert('err');
+      return;
+    }
+
+    const { tick } = wasm;
+
+    const result = tick(app);
+    dispatch(setHumans(result.humans));
+
+    requestAnimationFrame(() => render(result));
+  };
+
+  const processRooms = async (): Promise<GetRoomsReply> => {
     const { width, height } = layerSize;
-    const res = await getRooms({
+    return await fetchRooms({
       width,
       height,
       epsilon: OPENCV_APPROXIMATE_EPS,
-      objects: objects.map(object => ({
-        ...object,
-        object_type: drawingObjectTypes.indexOf(object.type),
-      })),
+      objects: convertObjectsToRust(objects),
     });
-    if (res.__state === 'success' && res.data) {
-      dispatch(setRooms(res.data));
-    }
+  };
+
+  const processWalls = async (): Promise<GetWallsReply> => {
+    return await fetchWalls({ objects: convertObjectsToRust(objects) });
   };
 
   return <div className="menubar">
