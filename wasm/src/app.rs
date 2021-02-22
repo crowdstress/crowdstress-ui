@@ -1,6 +1,5 @@
 use crate::human::Human;
 use crate::{behaviour, config, physics};
-use crowdstress_common::geometry::get_vector_to_line;
 use crowdstress_common::prelude::*;
 use wasm_bindgen::JsValue;
 
