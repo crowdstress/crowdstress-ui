@@ -2,18 +2,22 @@ import { Tool } from '@/models/tool';
 import { Undoable } from '@/models/undoable';
 import { DrawingObject } from '@/models/drawingObject';
 import { LayerSize } from '@/models/layer';
+import { Room } from '@/models/room';
+import { Human } from '@/models/human';
 
 export interface EditorParams {
-  readonly snapToNodes: boolean;
-  readonly snapToGrid: boolean;
-  readonly isLocked: boolean;
-  readonly drawing: boolean;
-  readonly gridSize: number;
-  readonly layerSize: LayerSize;
+  snapToNodes: boolean;
+  snapToGrid: boolean;
+  isLocked: boolean;
+  drawing: boolean;
+  gridSize: number;
+  layerSize: LayerSize;
 }
 
 export interface Editor {
-  readonly params: EditorParams;
-  readonly tool: Tool;
-  readonly objects: Undoable<DrawingObject[]>;
+  params: EditorParams;
+  tool: Tool;
+  objects: Undoable<DrawingObject[]>;
+  rooms: Room[];
+  humans: Human[];
 }

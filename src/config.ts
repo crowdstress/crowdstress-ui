@@ -20,3 +20,7 @@ export const HUMAN_PANIC_HSL = {
 export const BACKGROUND_COLOR = '#000000';
 export const OBJECT_COLOR = '#FFFFFF';
 export const EXIT_COLOR = '#FF0000';
+
+export const OPENCV_APPROXIMATE_EPS = 10;
+
+export const HTTP_URL = 'http://127.0.0.1';

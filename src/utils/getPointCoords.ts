@@ -11,11 +11,14 @@ export const getPointCoords = (
   options?: GetPointCoordsArgs
 ): DrawingObjectPoint => {
   if (options && options.snapToGrid) {
-    return [
-      Math.round(x / options.gridSize) * options.gridSize,
-      Math.round(y / options.gridSize) * options.gridSize,
-    ];
+    return {
+      x: Math.round(x / options.gridSize) * options.gridSize,
+      y: Math.round(y / options.gridSize) * options.gridSize,
+    };
   }
 
-  return [x, y];
+  return {
+    x,
+    y,
+  };
 };
