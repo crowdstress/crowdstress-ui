@@ -9,7 +9,7 @@ struct ExitExtended {
     vector_to_target: Vector,
 }
 
-pub fn get_target(human: &Human, exit_sections: &Vec<Exit>) -> Point {
+pub fn get_target(human: &Human, exit_sections: &Vec<Exit>) -> Option<Point> {
     #[derive(Copy, Clone)]
     struct ExitGeometry {
         middle: Point,
@@ -18,7 +18,7 @@ pub fn get_target(human: &Human, exit_sections: &Vec<Exit>) -> Point {
     }
 
     if exit_sections.is_empty() {
-        return Point::new(0.0, 0.0);
+        return None;
     }
 
     let exits: Vec<ExitGeometry> = exit_sections
@@ -64,10 +64,12 @@ pub fn get_target(human: &Human, exit_sections: &Vec<Exit>) -> Point {
 
     let selected_exit = select_exit(&exits_extended);
 
-    selected_exit
-        .vector_to_target
-        .to_line(selected_exit.middle)
-        .end
+    Option::from(
+        selected_exit
+            .vector_to_target
+            .to_line(selected_exit.middle)
+            .end,
+    )
 }
 
 fn select_exit(exits: &Vec<ExitExtended>) -> &ExitExtended {

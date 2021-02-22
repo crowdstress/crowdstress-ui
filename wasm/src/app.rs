@@ -1,5 +1,6 @@
 use crate::human::Human;
 use crate::{behaviour, config, physics};
+use crowdstress_common::geometry::get_vector_to_line;
 use crowdstress_common::prelude::*;
 use wasm_bindgen::JsValue;
 
@@ -7,6 +8,7 @@ use wasm_bindgen::JsValue;
 pub struct App {
     started: bool,
     humans: Vec<Human>,
+    rooms: Vec<Room>,
     walls: Vec<Section>,
     exits: Vec<Exit>,
 }
@@ -18,25 +20,48 @@ impl App {
         for human in &self.humans {
             let mut human_vectors: Vec<Vector> = Vec::new();
             let mut passed_exits = human.passed_exits.clone();
+            let mut target = human.target;
 
-            for exit in &self.exits {
-                let is_passed = geometry::is_point_belongs_to_line(&exit.section, &human.coords);
-                if is_passed && !passed_exits.contains(&exit.id) {
-                    passed_exits.push(String::from(&exit.id));
+            match target {
+                Some(point) => {
+                    human_vectors.push(physics::f1(&human, &point));
+                    for exit in &self.exits {
+                        let is_passed = is_exit_passed(&exit, &human.coords, &point);
+                        if is_passed && !passed_exits.contains(&exit.id) {
+                            web_sys::console::log_3(
+                                &"Exit".into(),
+                                &String::from(&exit.id).into(),
+                                &"passed".into(),
+                            );
+                            passed_exits.push(String::from(&exit.id));
+                            target = None;
+                            break;
+                        }
+                    }
+                }
+                None => {
+                    let room = get_room(&self.rooms, &human.coords);
+                    match room {
+                        Some(room) => {
+                            let possible_exits =
+                                get_possible_exits(&room, &self.exits, &passed_exits);
+                            let exit_target = behaviour::get_target(&human, &possible_exits);
+
+                            match exit_target {
+                                Some(point) => target = Option::from(point),
+                                None => {
+                                    web_sys::console::log_1(&"No target - destroy".into());
+                                    continue;
+                                }
+                            }
+                        }
+                        None => {
+                            web_sys::console::log_1(&"No room - destroy".into());
+                            continue;
+                        }
+                    }
                 }
             }
-
-            let possible_exits: Vec<Exit> = self
-                .exits
-                .iter()
-                .filter(|exit| !passed_exits.contains(&exit.id))
-                .map(|exit| Exit {
-                    id: String::from(&exit.id),
-                    section: exit.section,
-                })
-                .collect();
-            let target = behaviour::get_target(human, &possible_exits);
-            human_vectors.push(physics::f1(human, &target));
 
             for wall in &self.walls {
                 let vector_to_line = geometry::get_vector_to_line(
@@ -79,6 +104,7 @@ impl App {
                     x: human.coords.x + dr.x,
                     y: human.coords.y + dr.y,
                 },
+                target,
                 panic: if result_vector.get_length() > 800.0 {
                     100
                 } else {
@@ -91,4 +117,60 @@ impl App {
         self.humans = new_humans;
         JsValue::from_serde(&self).unwrap()
     }
+}
+
+fn get_room_exits(room: &Room, exits: &Vec<Exit>) -> Vec<Exit> {
+    exits
+        .iter()
+        .filter(|exit| room.exits.contains(&exit.id))
+        .map(|exit| Exit {
+            id: String::from(&exit.id),
+            section: exit.section,
+        })
+        .collect()
+}
+
+fn get_possible_exits(room: &Room, exits: &Vec<Exit>, passed_exits: &Vec<String>) -> Vec<Exit> {
+    get_room_exits(&room, &exits)
+        .iter()
+        .filter(|exit| !passed_exits.contains(&exit.id))
+        .map(|exit| Exit {
+            id: String::from(&exit.id),
+            section: exit.section,
+        })
+        .collect()
+}
+
+fn get_room(rooms: &Vec<Room>, coords: &Point) -> Option<Room> {
+    let mut current_room: Option<Room> = None;
+
+    for room in rooms {
+        let is_human_in = geometry::is_point_in_polygon(&room.points, &coords);
+        if is_human_in {
+            current_room = Option::from(Room {
+                id: String::from(&room.id),
+                points: room.points.clone(),
+                exits: room.exits.clone(),
+            });
+            break;
+        }
+    }
+
+    current_room
+}
+
+fn is_exit_passed(exit: &Exit, coords: &Point, target: &Point) -> bool {
+    let human_to_target_vector = Vector::from_points(&coords, &target);
+    let vector = Vector::from_points(&exit.section.start, &exit.section.end)
+        .normalize()
+        .perpendicular()
+        .product(config::TARGET_FROM_EXIT_DISTANCE);
+    let factor = if vector.projection_to(&human_to_target_vector) < 0.0 {
+        -1.0
+    } else {
+        1.0
+    };
+    let vector = vector.product(factor);
+    let section = exit.section.move_to(&vector);
+    geometry::is_point_belongs_to_line(&section, &coords)
 }

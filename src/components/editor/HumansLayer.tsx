@@ -39,6 +39,7 @@ export const HumansLayer: React.FC = () => {
     dispatch(addHuman({
       coords: point,
       panic: randomInt(0, 25),
+      target: null,
       passedExits: [],
     }));
   };

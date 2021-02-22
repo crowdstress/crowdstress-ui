@@ -34,6 +34,7 @@ import { convertHumansToRust, Human } from '@/models/human';
 import { getHumans, setHumans } from '@/store/editor/humans';
 import { Exit } from '@/models/exit';
 import { Section } from '@/models/section';
+import { Room } from '@/models/room';
 
 interface MenubarButtonProps {
   enabled?: boolean;
@@ -69,12 +70,13 @@ export const Menubar: React.FC = () => {
   };
 
   const run = async (): Promise<void> => {
-    const roomsRes = await processRooms();
-    if (!(roomsRes.__state === 'success' && roomsRes.data)) {
+    const resRooms = await processRooms();
+    if (!(resRooms.__state === 'success' && resRooms.data)) {
       alert('err');
       return;
     }
-    dispatch(setRooms(roomsRes.data));
+    const { data: rooms } = resRooms;
+    dispatch(setRooms(rooms));
 
     const resWalls = await processWalls();
     if (!(resWalls.__state === 'success' && resWalls.data)) {
@@ -91,10 +93,10 @@ export const Menubar: React.FC = () => {
       },
     }));
 
-    start(humans, walls, exits);
+    start(humans, rooms, walls, exits);
   };
 
-  const start = (humans: Human[], walls: Section[], exits: Exit[]): void => {
+  const start = (humans: Human[], rooms: Room[], walls: Section[], exits: Exit[]): void => {
     if (!wasm) {
       alert('err');
       return;
@@ -103,6 +105,7 @@ export const Menubar: React.FC = () => {
     const app: App = {
       started: true,
       humans: convertHumansToRust(humans),
+      rooms,
       walls,
       exits,
     };
