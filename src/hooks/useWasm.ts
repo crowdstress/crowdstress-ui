@@ -7,7 +7,7 @@ import {
 } from 'react';
 
 export type WASM_STATE = 'error' | 'pending' | 'ready';
-export type CrowdstressWasm = typeof import('crowdstress-wasm');
+export type CrowdstressWasm = typeof import('@crowdstress/wasm');
 interface WasmObject {
   wasm: CrowdstressWasm | null;
   state: WASM_STATE;
@@ -26,7 +26,7 @@ export const useWasm = (): [Provider<WasmObject>, WasmObject] => {
   useEffect(() => {
     const loadWasm = async (): Promise<void> => {
       try {
-        const wasm = await import('crowdstress-wasm');
+        const wasm = await import('@crowdstress/wasm');
         setWasm({
           wasm,
           state: 'ready',
