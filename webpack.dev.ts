@@ -1,10 +1,8 @@
 import * as path from 'path';
 import * as webpack from 'webpack';
 import HtmlWebPackPlugin from 'html-webpack-plugin';
-import WasmPack from '@wasm-tool/wasm-pack-plugin';
 
 const htmlPlugin = new HtmlWebPackPlugin({ template: path.resolve(__dirname, 'public', 'index.html') });
-const wasmPlugin = new WasmPack({ crateDirectory: path.resolve(__dirname, 'wasm', 'pkg') });
 
 const config: webpack.Configuration = {
   mode: 'development',
@@ -37,7 +35,7 @@ const config: webpack.Configuration = {
       },
     ],
   },
-  plugins: [htmlPlugin, wasmPlugin],
+  plugins: [htmlPlugin],
   devServer: {
     stats: 'errors-only',
     historyApiFallback: true,
