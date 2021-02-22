@@ -2,7 +2,6 @@ import * as path from 'path';
 import * as webpack from 'webpack';
 import HtmlWebPackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import WasmPack from '@wasm-tool/wasm-pack-plugin';
 
 
 const htmlPlugin = new HtmlWebPackPlugin({ template: path.resolve(__dirname, 'public', 'index.html') });
@@ -10,7 +9,6 @@ const cssPlugin = new MiniCssExtractPlugin({
   filename: './css/[name].[contenthash:8].css',
   chunkFilename: './css/[name].[contenthash:8].chunk.css',
 });
-const wasmPlugin = new WasmPack({ crateDirectory: path.resolve(__dirname, 'wasm', 'pkg') });
 
 const config: webpack.Configuration = {
   mode: 'production',
@@ -47,7 +45,7 @@ const config: webpack.Configuration = {
       },
     ],
   },
-  plugins: [htmlPlugin, cssPlugin, wasmPlugin],
+  plugins: [htmlPlugin, cssPlugin],
   optimization: {
     splitChunks: {
       chunks: 'all',
