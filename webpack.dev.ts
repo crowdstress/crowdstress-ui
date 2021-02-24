@@ -9,7 +9,7 @@ const config: webpack.Configuration = {
   entry: path.resolve(__dirname, 'src', 'index.tsx'),
   output: {
     path: path.resolve(__dirname, 'build'),
-    filename: './js/bundle.js',
+    filename: './static/js/bundle.js',
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.json', '.wasm'],

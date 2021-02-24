@@ -6,8 +6,8 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
 const htmlPlugin = new HtmlWebPackPlugin({ template: path.resolve(__dirname, 'public', 'index.html') });
 const cssPlugin = new MiniCssExtractPlugin({
-  filename: './css/[name].[contenthash:8].css',
-  chunkFilename: './css/[name].[contenthash:8].chunk.css',
+  filename: './static/css/[name].[contenthash:8].css',
+  chunkFilename: './static/css/[name].[contenthash:8].chunk.css',
 });
 
 const config: webpack.Configuration = {
@@ -15,8 +15,8 @@ const config: webpack.Configuration = {
   entry: path.resolve(__dirname, 'src', 'index.tsx'),
   output: {
     path: path.resolve(__dirname, 'build'),
-    filename: './js/[name].[contenthash:8].js',
-    chunkFilename: './js/[name].[contenthash:8].chunk.js',
+    filename: './static/js/[name].[contenthash:8].js',
+    chunkFilename: './static/js/[name].[contenthash:8].chunk.js',
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.json', '.wasm'],
