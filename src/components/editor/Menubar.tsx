@@ -35,6 +35,8 @@ import { getHumans, setHumans } from '@/store/editor/humans';
 import { Exit } from '@/models/exit';
 import { Section } from '@/models/section';
 import { Room } from '@/models/room';
+import { SaveProject } from '@/components/modals/SaveProject';
+import { useState } from 'react';
 
 interface MenubarButtonProps {
   enabled?: boolean;
@@ -61,6 +63,8 @@ export const Menubar: React.FC = () => {
   const canRedo = useSelector(getRedoAbility);
   const canReset = useSelector(getResetAbility);
   const canRun = useSelector(getRunAbility);
+  const canSave = objects.length > 0;
+  const [isSaveProject, setSaveProject] = useState(false);
   const dispatch = useDispatch();
   const { wasm } = useLoadedWasm();
 
@@ -142,7 +146,7 @@ export const Menubar: React.FC = () => {
 
   return <div className="menubar">
     <div className="flx-aic">
-      <MenubarButton>
+      <MenubarButton enabled={canSave} onClick={(): void => setSaveProject(true)}>
         <IconSave className="icon-black" />
       </MenubarButton>
       <MenubarButton enabled={canUndo} onClick={(): Action<typeof UNDO> => dispatch(undo())}>
@@ -160,5 +164,6 @@ export const Menubar: React.FC = () => {
         <IconRun className="icon-black" />
       </MenubarButton>
     </div>
+    { isSaveProject && <SaveProject onClose={(): void => setSaveProject(false)} /> }
   </div>;
 };

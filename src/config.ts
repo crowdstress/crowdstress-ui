@@ -23,4 +23,7 @@ export const EXIT_COLOR = '#FF0000';
 
 export const OPENCV_APPROXIMATE_EPS = 10;
 
-export const HTTP_URL = 'http://127.0.0.1';
+export const IS_DEV = process.env.NODE_ENV === 'development';
+
+export const APP_NODE_ID = 'app';
+export const MODAL_NODE_ID = 'modal';
