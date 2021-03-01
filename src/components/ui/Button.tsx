@@ -42,6 +42,7 @@ export const Button = styled.button<ButtonProps>`
     background: ${({ buttonStyle }): string => buttonStyle === 'primary' ? darken(PRIMARY_COLOR, 10) : 'transparent'}
   };
   transition: background .15s ease-in-out;
+  font-weight: 400;
   &:disabled {
     pointer-events: none;
     background: ${DISABLED_COLOR};

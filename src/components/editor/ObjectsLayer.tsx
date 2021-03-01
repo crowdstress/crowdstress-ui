@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addObject, getPresentObjects } from '@/store/editor/objects';
 import { Layer } from '@/components/editor/Layer';
 import { SVGObject } from '@/components/svg/SVGObject';
 import { getTool } from '@/store/editor/tool';
@@ -17,6 +16,8 @@ import { getPointCoords } from '@/utils/getPointCoords';
 import { SVGCross } from '@/components/svg/SVGCross';
 import { DEFAULT_CROSS_SIZE, DRAWING_OBJECT_ID } from '@/config';
 import { LayerEvent, LayerSize } from '@/models/layer';
+import { getPresentObjects } from '@/store/project/objects/selectors';
+import { addObject } from '@/store/project/objects/actions';
 
 export const ObjectsLayer: React.FC = () => {
   const tool = useSelector(getTool);

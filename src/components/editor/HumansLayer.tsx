@@ -7,7 +7,8 @@ import { useState } from 'react';
 import { DrawingObjectPoint } from '@/models/drawingObject';
 import { DEFAULT_HUMAN_DISTANCE, HUMAN_PANIC_HSL, HUMAN_SIZE } from '@/config';
 import { randomInt } from '@/utils/randomInt';
-import { addHuman, getHumans } from '@/store/editor/humans';
+import { getHumans } from '@/store/project/humans/selectors';
+import { addHuman } from '@/store/project/humans/actions';
 
 export const HumansLayer: React.FC = () => {
   const tool = useSelector(getTool);

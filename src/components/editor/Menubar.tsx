@@ -7,14 +7,6 @@ import IconClear from '@/assets/svg/menu/clear.svg';
 import IconRun from '@/assets/svg/menu/run.svg';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  getPresentObjects,
-  getRedoAbility,
-  getResetAbility,
-  getRunAbility,
-  getUndoAbility
-} from '@/store/editor/objects';
-import { getClassName } from '@/utils/getClassName';
-import {
   REDO,
   redo,
   reset,
@@ -31,29 +23,27 @@ import { convertObjectsToRust } from '@/models/drawingObject';
 import { App } from '@/models/app';
 import { useLoadedWasm } from '@/hooks/useWasm';
 import { convertHumansToRust, Human } from '@/models/human';
-import { getHumans, setHumans } from '@/store/editor/humans';
 import { Exit } from '@/models/exit';
 import { Section } from '@/models/section';
 import { Room } from '@/models/room';
-import { SaveProject } from '@/components/modals/SaveProject';
 import { useState } from 'react';
+import {
+  getPresentObjects,
+  getRedoAbility,
+  getResetAbility,
+  getRunAbility,
+  getUndoAbility
+} from '@/store/project/objects/selectors';
+import { getHumans } from '@/store/project/humans/selectors';
+import { setHumans } from '@/store/project/humans/actions';
+import { Bar, BarItem } from '@/components/ui/Bar';
+import styled from 'styled-components';
+import { BORDER_COLOR } from '@/components/ui/colors';
 
-interface MenubarButtonProps {
-  enabled?: boolean;
-  onClick?: () => void;
-}
-
-const MenubarButton: React.FC<MenubarButtonProps> =
-  ({ enabled = true, onClick, children }) =>
-    <button
-      className={getClassName('menubar__item', enabled ? '' : 'menubar__item_disabled')}
-      onClick={onClick}
-      disabled={!enabled}
-    >
-      <div className="icon-wrapper-m">
-        {children}
-      </div>
-    </button>;
+const MenubarBlock = styled(Bar)`
+  grid-area: menubar;
+  border-bottom: 1px solid ${BORDER_COLOR};
+`;
 
 export const Menubar: React.FC = () => {
   const objects = useSelector(getPresentObjects);
@@ -144,26 +134,25 @@ export const Menubar: React.FC = () => {
     return await fetchWalls({ objects: convertObjectsToRust(objects) });
   };
 
-  return <div className="menubar">
+  return <MenubarBlock>
     <div className="flx-aic">
-      <MenubarButton enabled={canSave} onClick={(): void => setSaveProject(true)}>
+      <BarItem onClick={(): void => setSaveProject(true)} disabled={!canSave}>
         <IconSave className="icon-black" />
-      </MenubarButton>
-      <MenubarButton enabled={canUndo} onClick={(): Action<typeof UNDO> => dispatch(undo())}>
+      </BarItem>
+      <BarItem onClick={(): Action<typeof UNDO> => dispatch(undo())} disabled={!canUndo}>
         <IconUndo className="icon-black" />
-      </MenubarButton>
-      <MenubarButton enabled={canRedo} onClick={(): Action<typeof REDO> => dispatch(redo())}>
+      </BarItem>
+      <BarItem onClick={(): Action<typeof REDO> => dispatch(redo())} disabled={!canRedo}>
         <IconRedo className="icon-black" />
-      </MenubarButton>
-      <MenubarButton enabled={canReset} onClick={clear}>
+      </BarItem>
+      <BarItem onClick={clear} disabled={!canReset}>
         <IconClear className="icon-black" />
-      </MenubarButton>
+      </BarItem>
     </div>
     <div className="flx-aic">
-      <MenubarButton enabled={canRun} onClick={run}>
+      <BarItem onClick={run} disabled={!canRun}>
         <IconRun className="icon-black" />
-      </MenubarButton>
+      </BarItem>
     </div>
-    { isSaveProject && <SaveProject onClose={(): void => setSaveProject(false)} /> }
-  </div>;
+  </MenubarBlock>;
 };
