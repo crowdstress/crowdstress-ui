@@ -52,7 +52,6 @@ const ToolbarItem = styled.button<MarginProps>`
   display: flex;
   align-items: center;
   justify-content: center;
-  background: ${WHITE_COLOR};
   &:disabled {
     pointer-events: none;
   }
@@ -76,6 +75,7 @@ const ToolbarItemIcon = styled.div<ActiveDisabledProps>`
   opacity: ${({ disabled }): number => disabled ? .5 : 1};
   border: 2px solid ${({ active }): string => active ? PRIMARY_COLOR : BORDER_COLOR};
   border-radius: .5rem;
+  background: ${WHITE_COLOR};
 `;
 
 type ToolbarButtonProps = MarginProps & {
