@@ -15,6 +15,7 @@ import { Tools } from '@/components/editor/Tools';
 import { Params } from '@/components/editor/Params';
 import { Actions } from '@/components/editor/Actions';
 import { Running } from '@/components/editor/Running';
+import { useKeyboard } from '@/hooks/useKeyboard';
 
 const EditorLayout = styled.div`
   position: relative;
@@ -41,6 +42,8 @@ export const EditorView: React.FC = () => {
   const dispatch = useDispatch();
   const [WasmProvider, wasm] = useWasm();
   const { state } = wasm;
+
+  useKeyboard();
 
   useEffect(() => {
     return (): void => {

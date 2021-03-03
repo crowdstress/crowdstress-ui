@@ -24,9 +24,6 @@ const CheckboxLabel = styled.label<CheckboxLabelProps>`
   opacity: ${({ disabled }): number => disabled ? .6 : 1};
   user-select: none;
   font-weight: 300;
-  &:not(:last-child) {
-    margin-bottom: 1.25rem;
-  }
 `;
 
 const CheckboxInput = styled.input`

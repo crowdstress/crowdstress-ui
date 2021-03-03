@@ -1,5 +1,5 @@
 import React from 'react';
-import { Toolbar, ToolbarButton } from '@/components/ui/Toolbar';
+import { getToolbarButtonMargin, Toolbar, ToolbarButtonWithTooltip, ToolbarDirection } from '@/components/ui/Toolbar';
 import { Tool, tools } from '@/models/tool';
 import { useDispatch, useSelector } from 'react-redux';
 import { getTool, setTool } from '@/store/editor/tool';
@@ -11,6 +11,10 @@ import IconSpline from '@/assets/svg/tools/spline.svg';
 import IconHuman from '@/assets/svg/tools/human.svg';
 import IconExit from '@/assets/svg/tools/exit.svg';
 import { getDrawing, setParams } from '@/store/editor/params';
+import { capitalize } from 'lodash';
+
+const TOOLBAR_DIRECTION: ToolbarDirection = 'column';
+const TOOLBAR_BUTTON_MARGIN = getToolbarButtonMargin(TOOLBAR_DIRECTION);
 
 interface ToolIconProps {
   tool: Tool;
@@ -43,18 +47,20 @@ export const Tools: React.FC = () => {
       vertical: 'top',
       horizontal: 'left',
     }}
-    direction="column"
+    direction={TOOLBAR_DIRECTION}
   >
     {
       tools.map((item, index) =>
-        <ToolbarButton
+        <ToolbarButtonWithTooltip
           key={`tool-${index}`}
           active={item === tool}
-          margin="bottom"
+          tooltipPosition="right"
+          text={capitalize(item)}
+          margin={TOOLBAR_BUTTON_MARGIN}
           onClick={(): void => handleToolClick(item)}
         >
           <ToolIcon tool={item} />
-        </ToolbarButton>
+        </ToolbarButtonWithTooltip>
       )
     }
   </Toolbar>;

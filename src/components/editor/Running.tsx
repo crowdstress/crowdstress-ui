@@ -1,5 +1,5 @@
 import React from 'react';
-import { Toolbar, ToolbarButton } from '@/components/ui/Toolbar';
+import { getToolbarButtonMargin, Toolbar, ToolbarButtonWithTooltip, ToolbarDirection } from '@/components/ui/Toolbar';
 import { setRooms } from '@/store/editor/rooms';
 import { Exit } from '@/models/exit';
 import { convertHumansToRust, Human } from '@/models/human';
@@ -17,6 +17,9 @@ import { getPresentObjects, getRunAbility } from '@/store/project/objects/select
 import { getHumans } from '@/store/project/humans/selectors';
 import { getLayerSize } from '@/store/editor/params';
 import IconRun from '@/assets/svg/menu/run.svg';
+
+const TOOLBAR_DIRECTION: ToolbarDirection = 'column';
+const TOOLBAR_BUTTON_MARGIN = getToolbarButtonMargin(TOOLBAR_DIRECTION);
 
 export const Running: React.FC = () => {
   const objects = useSelector(getPresentObjects);
@@ -100,9 +103,17 @@ export const Running: React.FC = () => {
   return <Toolbar position={{
     vertical: 'top',
     horizontal: 'right',
-  }} direction="row">
-    <ToolbarButton margin="right" disabled={!canRun} onClick={run}>
+  }}
+  direction={TOOLBAR_DIRECTION}
+  >
+    <ToolbarButtonWithTooltip
+      margin={TOOLBAR_BUTTON_MARGIN}
+      tooltipPosition="bottom"
+      text={'Run'}
+      disabled={!canRun}
+      onClick={run}
+    >
       <IconRun />
-    </ToolbarButton>
+    </ToolbarButtonWithTooltip>
   </Toolbar>;
 };

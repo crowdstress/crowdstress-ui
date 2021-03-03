@@ -27,3 +27,13 @@ export const IS_DEV = process.env.NODE_ENV === 'development';
 
 export const APP_NODE_ID = 'app';
 export const MODAL_NODE_ID = 'modal';
+
+export const KEY_TOGGLE_GRID = '#';
+export const SHORTCUT_TOGGLE_GRID = 'Shift + 3';
+export const KEY_UNDO = 'Z';
+export const SHORTCUT_UNDO = 'Ctrl + Z';
+export const KEY_REDO = 'Y';
+export const SHORTCUT_REDO = 'Ctrl + Y';
+export const KEY_TOGGLE_CANVAS_LOCK = 'L';
+export const SHORTCUT_TOGGLE_CANVAS_LOCK = 'Ctrl + L';
+export const KEY_DELETE_OBJECTS = 'Delete';

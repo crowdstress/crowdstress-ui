@@ -1,20 +1,23 @@
 import styled from 'styled-components';
 import { BORDER_COLOR, PRIMARY_COLOR, WHITE_COLOR } from '@/components/ui/colors';
 import React from 'react';
+import { Position, Tooltip } from '@/components/ui/Tooltip';
 
 const MARGIN = '1rem' as const;
 const GAP = '.75rem' as const;
 
+export const getToolbarButtonMargin = (direction: ToolbarDirection): ToolbarMargin => direction === 'row' ? 'right' : 'bottom';
+
 type VerticalPosition = 'top' | 'bottom';
 type HorizontalPosition = 'left' | 'right';
-interface Position {
+interface ToolbarPosition {
   vertical: VerticalPosition;
   horizontal: HorizontalPosition;
 }
-type Direction = 'row' | 'column';
+export type ToolbarDirection = 'row' | 'column';
 interface ToolbarProps {
-  position: Position;
-  direction: Direction;
+  position: ToolbarPosition;
+  direction: ToolbarDirection;
 }
 
 export const Toolbar = styled.div<ToolbarProps>`
@@ -36,25 +39,20 @@ export const Toolbar = styled.div<ToolbarProps>`
     return horizontal === 'right' ? MARGIN : 'auto';
   }};
   display: flex;
-  flex-direction: ${({ direction }): Direction => direction};
+  flex-direction: ${({ direction }): ToolbarDirection => direction};
+  z-index: 9;
 `;
 
-type Margin = 'right' | 'bottom';
-interface ToolbarItemProps {
-  active?: boolean;
-  margin: Margin;
+export type ToolbarMargin = 'right' | 'bottom';
+interface MarginProps {
+  margin: ToolbarMargin;
 }
 
-const ToolbarItem = styled.button<ToolbarItemProps>`
+const ToolbarItem = styled.button<MarginProps>`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 3rem;
-  height: 3rem;
   background: ${WHITE_COLOR};
-  border: 2px solid ${({ active }): string => active ? PRIMARY_COLOR : BORDER_COLOR};
-  border-radius: .5rem;
-  z-index: 9;
   &:disabled {
     pointer-events: none;
   }
@@ -64,26 +62,63 @@ const ToolbarItem = styled.button<ToolbarItemProps>`
   }
 `;
 
-interface ToolbarItemIconProps {
+interface ActiveDisabledProps {
+  active?: boolean;
   disabled?: boolean;
 }
 
-const ToolbarItemIcon = styled.div<ToolbarItemIconProps>`
+const ToolbarItemIcon = styled.div<ActiveDisabledProps>`
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   opacity: ${({ disabled }): number => disabled ? .5 : 1};
+  border: 2px solid ${({ active }): string => active ? PRIMARY_COLOR : BORDER_COLOR};
+  border-radius: .5rem;
 `;
 
-type ToolbarButtonProps = ToolbarItemProps & { disabled?: boolean; onClick: () => void; };
+type ToolbarButtonProps = MarginProps & {
+  disabled?: boolean;
+  onClick?: () => void;
+};
 
-export const ToolbarButton: React.FC<ToolbarButtonProps> =
-  ({ active, margin, disabled, onClick, children }) => {
-    return <ToolbarItem
-      active={active}
-      margin={margin}
-      onClick={onClick}
-      disabled={disabled}
-    >
-      <ToolbarItemIcon disabled={disabled} className="icon-wrapper-m">
+export const ToolbarButton: React.FC<ToolbarButtonProps> = ({ margin, disabled, onClick, children }) => {
+  return <ToolbarItem
+    margin={margin}
+    onClick={onClick}
+    disabled={disabled}
+  >
+    {children}
+  </ToolbarItem>;
+};
+
+interface ToolbarContentProps {
+  active?: boolean;
+  disabled?: boolean;
+}
+
+export const ToolbarContent: React.FC<ToolbarContentProps> = ({ active, disabled, children }) => {
+  return <ToolbarItemIcon active={active} disabled={disabled}>
+    <div className="icon-wrapper-m">
+      { children }
+    </div>
+  </ToolbarItemIcon>;
+};
+
+type ToolbarButtonWithTooltipProps = MarginProps & {
+  tooltipPosition: Position;
+  active?: boolean;
+  disabled?: boolean;
+  onClick?: () => void;
+  text: JSX.Element | string;
+}
+
+export const ToolbarButtonWithTooltip: React.FC<ToolbarButtonWithTooltipProps> = ({ margin, tooltipPosition, active, disabled, onClick, text, children }) =>
+  <ToolbarButton margin={margin} disabled={disabled} onClick={onClick}>
+    <Tooltip position={tooltipPosition} text={text}>
+      <ToolbarContent active={active} disabled={disabled}>
         { children }
-      </ToolbarItemIcon>
-    </ToolbarItem>;
-  };
+      </ToolbarContent>
+    </Tooltip>
+  </ToolbarButton>;

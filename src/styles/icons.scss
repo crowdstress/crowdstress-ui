@@ -1,3 +1,5 @@
+@import "colors";
+
 @mixin icon-wrapper($value) {
   $size: ($value / 16.0) + 0rem;
 
@@ -13,7 +15,8 @@
   }
 }
 
-.icon-wrapper-s { @include icon-wrapper(16); }
+.icon-wrapper-s { @include icon-wrapper(18); }
 .icon-wrapper-m { @include icon-wrapper(24); }
 
 .icon-black { fill: black }
+.icon-gray { fill: $gray }
