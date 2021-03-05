@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useSelector } from 'react-redux';
-import { getTool } from '@/store/editor/tool';
+
+import { getTool } from '@/store/editor/selectors';
 import { getClassName } from '@/utils/getClassName';
 
 interface SVGGroupProps {

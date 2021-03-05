@@ -1,27 +1,19 @@
 import { combineReducers, createStore, Reducer, Store } from 'redux';
-import { State } from '@/models/store';
-import { defaultEditorParams, params } from '@/store/editor/params';
 import { devToolsEnhancer } from 'redux-devtools-extension';
-import { defaultTool, tool } from '@/store/editor/tool';
-import { defaultRooms, rooms } from '@/store/editor/rooms';
+
+import { State } from '@/models/store';
+import { editor } from '@/store/editor/reducer';
+import { defaultEditor } from '@/store/editor/types';
 import { project, projectData } from '@/store/project/reducer';
 import { defaultProject } from '@/store/project/types';
 
 const defaultState: State = {
-  editor: {
-    params: defaultEditorParams,
-    rooms: defaultRooms,
-    tool: defaultTool,
-  },
+  editor: defaultEditor,
   project: defaultProject,
 };
 
 const rootReducer: Reducer<State> = combineReducers({
-  editor: combineReducers({
-    rooms,
-    params,
-    tool,
-  }),
+  editor,
   project: project(projectData),
 });
 

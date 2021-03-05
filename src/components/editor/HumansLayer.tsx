@@ -1,14 +1,15 @@
 import * as React from 'react';
-import { Layer } from '@/components/editor/Layer';
-import { useDispatch, useSelector } from 'react-redux';
-import { getTool } from '@/store/editor/tool';
-import { LayerEvent } from '@/models/layer';
 import { useState } from 'react';
-import { DrawingObjectPoint } from '@/models/drawingObject';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { Layer } from '@/components/editor/Layer';
 import { DEFAULT_HUMAN_DISTANCE, HUMAN_PANIC_HSL, HUMAN_SIZE } from '@/config';
-import { randomInt } from '@/utils/randomInt';
-import { getHumans } from '@/store/project/humans/selectors';
+import { DrawingObjectPoint } from '@/models/drawingObject';
+import { LayerEvent } from '@/models/layer';
+import { getTool } from '@/store/editor/selectors';
 import { addHuman } from '@/store/project/humans/actions';
+import { getHumans } from '@/store/project/selectors';
+import { randomInt } from '@/utils/randomInt';
 
 export const HumansLayer: React.FC = () => {
   const tool = useSelector(getTool);
@@ -40,8 +41,8 @@ export const HumansLayer: React.FC = () => {
     dispatch(addHuman({
       coords: point,
       panic: randomInt(0, 25),
-      targetSection: null,
       passedExits: [],
+      targetSection: null,
     }));
   };
 
@@ -58,8 +59,8 @@ export const HumansLayer: React.FC = () => {
         const props: React.SVGProps<SVGCircleElement> = {
           cx,
           cy,
-          r: HUMAN_SIZE,
           fill: `hsl(${H - 100 / H * panic}, ${S}, ${L})`,
+          r: HUMAN_SIZE,
         };
         return <circle key={`human-${index}`} {...props} />;
       })

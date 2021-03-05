@@ -1,4 +1,9 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+import IconClear from '@/assets/svg/menu/clear.svg';
+import IconRedo from '@/assets/svg/menu/redo.svg';
+import IconUndo from '@/assets/svg/menu/undo.svg';
 import {
   getToolbarButtonMargin,
   Toolbar,
@@ -7,15 +12,11 @@ import {
   ToolbarContent,
   ToolbarDirection
 } from '@/components/ui/Toolbar';
-import { useDispatch, useSelector } from 'react-redux';
-import { redo, reset, undo } from '@/store/undoable';
-import IconUndo from '@/assets/svg/menu/undo.svg';
-import { setRooms } from '@/store/editor/rooms';
-import IconRedo from '@/assets/svg/menu/redo.svg';
-import IconClear from '@/assets/svg/menu/clear.svg';
-import { getRedoAbility, getResetAbility, getUndoAbility } from '@/store/project/objects/selectors';
+import { tooltipTextWithShortcut } from '@/components/ui/Tooltip';
 import { SHORTCUT_REDO, SHORTCUT_UNDO } from '@/config';
-import { oneLineTooltipText } from '@/components/ui/Tooltip';
+import { setRooms } from '@/store/editor/rooms/actions';
+import { getRedoAbility, getResetAbility, getUndoAbility } from '@/store/project/selectors';
+import { redo, reset, undo } from '@/store/undoable';
 
 const TOOLBAR_DIRECTION: ToolbarDirection = 'row';
 const TOOLBAR_BUTTON_MARGIN = getToolbarButtonMargin(TOOLBAR_DIRECTION);
@@ -40,15 +41,16 @@ export const Actions: React.FC = () => {
     dispatch(setRooms([]));
   };
 
-  return <Toolbar position={{
-    vertical: 'bottom',
-    horizontal: 'right',
-  }}
-  direction={TOOLBAR_DIRECTION}
+  return <Toolbar
+    position={{
+      horizontal: 'right',
+      vertical: 'bottom',
+    }}
+    direction={TOOLBAR_DIRECTION}
   >
     <ToolbarButtonWithTooltip
       tooltipPosition="top"
-      text={oneLineTooltipText(SHORTCUT_UNDO)}
+      text={tooltipTextWithShortcut('Undo', SHORTCUT_UNDO)}
       disabled={!canUndo}
       margin={TOOLBAR_BUTTON_MARGIN}
       onClick={doUndo}
@@ -57,7 +59,7 @@ export const Actions: React.FC = () => {
     </ToolbarButtonWithTooltip>
     <ToolbarButtonWithTooltip
       tooltipPosition="top"
-      text={oneLineTooltipText(SHORTCUT_REDO)}
+      text={tooltipTextWithShortcut('Redo', SHORTCUT_REDO)}
       disabled={!canRedo}
       margin={TOOLBAR_BUTTON_MARGIN}
       onClick={doRedo}

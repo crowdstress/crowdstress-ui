@@ -1,21 +1,22 @@
 import * as React from 'react';
-import { ObjectsLayer } from '@/components/editor/ObjectsLayer';
-import { useDispatch, useSelector } from 'react-redux';
-import { getSnapToGrid } from '@/store/editor/params';
-import { GridLayer } from '@/components/editor/GridLayer';
-import { HumansLayer } from '@/components/editor/HumansLayer';
-import { useWasm } from '@/hooks/useWasm';
-import { RoomsLayer } from '@/components/editor/RoomsLayer';
 import { useEffect } from 'react';
-import { resetProject } from '@/store/project/actions';
-import { getIsInitialized } from '@/store/project/selectors';
+import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import styled from 'styled-components';
-import { Tools } from '@/components/editor/Tools';
-import { Params } from '@/components/editor/Params';
+
 import { Actions } from '@/components/editor/Actions';
+import { GridLayer } from '@/components/editor/GridLayer';
+import { HumansLayer } from '@/components/editor/HumansLayer';
+import { ObjectsLayer } from '@/components/editor/ObjectsLayer';
+import { Params } from '@/components/editor/Params';
+import { RoomsLayer } from '@/components/editor/RoomsLayer';
 import { Running } from '@/components/editor/Running';
+import { Tools } from '@/components/editor/Tools';
 import { useKeyboard } from '@/hooks/useKeyboard';
+import { useWasm } from '@/hooks/useWasm';
+import { getSnapToGrid } from '@/store/editor/selectors';
+import { resetProject } from '@/store/project/actions';
+import { getIsInitialized } from '@/store/project/selectors';
 
 const EditorLayout = styled.div`
   position: relative;

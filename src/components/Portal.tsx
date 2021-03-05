@@ -1,6 +1,7 @@
 import React from 'react';
-import { MODAL_NODE_ID } from '@/config';
 import ReactDOM from 'react-dom';
+
+import { MODAL_NODE_ID } from '@/config';
 
 const modalNode = document.getElementById(MODAL_NODE_ID);
 

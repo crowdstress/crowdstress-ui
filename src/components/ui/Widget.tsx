@@ -1,6 +1,7 @@
-import styled from 'styled-components';
-import { BORDER_COLOR, WHITE_COLOR } from '@/components/ui/colors';
 import React from 'react';
+import styled from 'styled-components';
+
+import { BORDER_COLOR, WHITE_COLOR } from '@/components/ui/colors';
 
 interface WidgetProps {
   title?: string;

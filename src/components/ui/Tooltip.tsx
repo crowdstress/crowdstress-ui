@@ -1,15 +1,16 @@
-import styled from 'styled-components';
 import React, { useState } from 'react';
-import { WHITE_COLOR } from '@/components/ui/colors';
+import styled from 'styled-components';
 
-const MARKER_SIZE = '.625rem';
+import { GRAY_50, WHITE_COLOR } from '@/components/ui/colors';
+
+const MARKER_SIZE = '.5rem';
 const MARKER_GAP = '.375rem';
 const BACKGROUND = 'rgba(20, 20, 30, .85)';
 
 export type Position = 'top' | 'bottom' | 'left' | 'right';
 interface TooltipBoxProps {
-  position: Position;
   isVisible: boolean;
+  position: Position;
 }
 
 const TooltipContainer = styled.div`
@@ -24,8 +25,8 @@ interface Block {
   transform: string;
 }
 type BeforeBlock = Block & {
-  borderWidth: string;
   borderColor: string;
+  borderWidth: string;
 }
 const tooltipBox = (pos: Position): Block => {
   const boxTop = (): PositionValue => {
@@ -59,10 +60,10 @@ const tooltipBox = (pos: Position): Block => {
   };
 
   const position: BlockPosition = {
-    top: boxTop(),
     bottom: boxBottom(),
     left: boxLeft(),
     right: boxRight(),
+    top: boxTop(),
   };
 
   const transform = boxTransform();
@@ -118,10 +119,10 @@ const before = (pos: Position): BeforeBlock => {
   };
 
   const position: BlockPosition = {
-    top: boxTop(),
     bottom: boxBottom(),
     left: boxLeft(),
     right: boxRight(),
+    top: boxTop(),
   };
 
   const transform = boxTransform();
@@ -131,10 +132,10 @@ const before = (pos: Position): BeforeBlock => {
   const borderColor = boxBorderColor();
 
   return {
+    borderColor,
+    borderWidth,
     position,
     transform,
-    borderWidth,
-    borderColor,
   };
 };
 
@@ -194,9 +195,21 @@ export const Tooltip: React.FC<TooltipProps> = ({ position, text, children }) =>
   </TooltipContainer>;
 };
 
-export const OneLineTooltipText = styled.span`
+const OneLineTooltipText = styled.span`
   white-space: nowrap;
 `;
 
+const ShortcutText = styled.span`
+  margin-left: .625rem;
+  color: ${GRAY_50};
+`;
+
 export const oneLineTooltipText = (text: string): JSX.Element => <OneLineTooltipText>{ text }</OneLineTooltipText>;
+export const tooltipTextWithShortcut = (text: string, shortcut: string): JSX.Element =>
+  <OneLineTooltipText>
+    { text }
+    <ShortcutText>
+      { shortcut }
+    </ShortcutText>
+  </OneLineTooltipText>;
 

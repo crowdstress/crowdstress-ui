@@ -1,7 +1,8 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { getRedoAbility, getUndoAbility } from '@/store/project/objects/selectors';
 import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
 import { KEY_REDO, KEY_UNDO } from '@/config';
+import { getRedoAbility, getUndoAbility } from '@/store/project/selectors';
 import { redo, undo } from '@/store/undoable';
 
 export const useKeyboard = (): void => {

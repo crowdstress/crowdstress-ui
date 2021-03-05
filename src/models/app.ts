@@ -1,12 +1,12 @@
-import { RustHuman } from '@/models/human';
 import { Exit } from '@/models/exit';
-import { Section } from '@/models/section';
+import { RustHuman } from '@/models/human';
 import { Room } from '@/models/room';
+import { Section } from '@/models/section';
 
 export interface App {
-  started: boolean;
+  exits: Exit[],
   humans: RustHuman[],
   rooms: Room[],
-  walls: Section[],
-  exits: Exit[],
+  started: boolean;
+  walls: Section[];
 }

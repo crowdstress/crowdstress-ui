@@ -1,6 +1,7 @@
-import styled from 'styled-components';
-import { BORDER_COLOR, PRIMARY_COLOR, WHITE_COLOR } from '@/components/ui/colors';
 import React from 'react';
+import styled from 'styled-components';
+
+import { BORDER_COLOR, PRIMARY_COLOR, WHITE_COLOR } from '@/components/ui/colors';
 import { Position, Tooltip } from '@/components/ui/Tooltip';
 
 const MARGIN = '1rem' as const;
@@ -11,13 +12,13 @@ export const getToolbarButtonMargin = (direction: ToolbarDirection): ToolbarMarg
 type VerticalPosition = 'top' | 'bottom';
 type HorizontalPosition = 'left' | 'right';
 interface ToolbarPosition {
-  vertical: VerticalPosition;
   horizontal: HorizontalPosition;
+  vertical: VerticalPosition;
 }
 export type ToolbarDirection = 'row' | 'column';
 interface ToolbarProps {
-  position: ToolbarPosition;
   direction: ToolbarDirection;
+  position: ToolbarPosition;
 }
 
 export const Toolbar = styled.div<ToolbarProps>`
@@ -52,6 +53,8 @@ const ToolbarItem = styled.button<MarginProps>`
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: .5rem;
+  background: ${WHITE_COLOR};
   &:disabled {
     pointer-events: none;
   }
@@ -75,7 +78,6 @@ const ToolbarItemIcon = styled.div<ActiveDisabledProps>`
   opacity: ${({ disabled }): number => disabled ? .5 : 1};
   border: 2px solid ${({ active }): string => active ? PRIMARY_COLOR : BORDER_COLOR};
   border-radius: .5rem;
-  background: ${WHITE_COLOR};
 `;
 
 type ToolbarButtonProps = MarginProps & {
@@ -107,11 +109,11 @@ export const ToolbarContent: React.FC<ToolbarContentProps> = ({ active, disabled
 };
 
 type ToolbarButtonWithTooltipProps = MarginProps & {
-  tooltipPosition: Position;
   active?: boolean;
   disabled?: boolean;
   onClick?: () => void;
   text: JSX.Element | string;
+  tooltipPosition: Position;
 }
 
 export const ToolbarButtonWithTooltip: React.FC<ToolbarButtonWithTooltipProps> = ({ margin, tooltipPosition, active, disabled, onClick, text, children }) =>

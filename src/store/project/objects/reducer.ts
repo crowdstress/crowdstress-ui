@@ -1,4 +1,5 @@
 import { Reducer } from 'redux';
+
 import { DrawingObject } from '@/models/drawingObject';
 import { ADD_OBJECT, defaultObjects, ObjectsAction } from '@/store/project/objects/types';
 

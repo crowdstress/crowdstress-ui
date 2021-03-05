@@ -1,24 +1,26 @@
+import { capitalize } from 'lodash';
 import React from 'react';
-import { getToolbarButtonMargin, Toolbar, ToolbarButtonWithTooltip, ToolbarDirection } from '@/components/ui/Toolbar';
-import { Tool, tools } from '@/models/tool';
 import { useDispatch, useSelector } from 'react-redux';
-import { getTool, setTool } from '@/store/editor/tool';
+
 import IconCursor from '@/assets/svg/tools/cursor.svg';
+import IconEllipse from '@/assets/svg/tools/ellipse.svg';
+import IconExit from '@/assets/svg/tools/exit.svg';
+import IconHuman from '@/assets/svg/tools/human.svg';
 import IconLine from '@/assets/svg/tools/line.svg';
 import IconRect from '@/assets/svg/tools/rect.svg';
-import IconEllipse from '@/assets/svg/tools/ellipse.svg';
 import IconSpline from '@/assets/svg/tools/spline.svg';
-import IconHuman from '@/assets/svg/tools/human.svg';
-import IconExit from '@/assets/svg/tools/exit.svg';
-import { getDrawing, setParams } from '@/store/editor/params';
-import { capitalize } from 'lodash';
+import { getToolbarButtonMargin, Toolbar, ToolbarButtonWithTooltip, ToolbarDirection } from '@/components/ui/Toolbar';
+import { Tool, tools } from '@/models/tool';
+import { setParams } from '@/store/editor/params/actions';
+import { getDrawing, getTool } from '@/store/editor/selectors';
+import { setTool } from '@/store/editor/tool/actions';
 
 const TOOLBAR_DIRECTION: ToolbarDirection = 'column';
 const TOOLBAR_BUTTON_MARGIN = getToolbarButtonMargin(TOOLBAR_DIRECTION);
 
 interface ToolIconProps {
-  tool: Tool;
   className?: string;
+  tool: Tool;
 }
 
 export const ToolIcon: React.FC<ToolIconProps> = ({ tool, className }) => {
@@ -44,8 +46,8 @@ export const Tools: React.FC = () => {
 
   return <Toolbar
     position={{
-      vertical: 'top',
       horizontal: 'left',
+      vertical: 'top',
     }}
     direction={TOOLBAR_DIRECTION}
   >

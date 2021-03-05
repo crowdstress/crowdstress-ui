@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+
 import { BLACK_COLOR, DISABLED_COLOR, PRIMARY_COLOR, WHITE_COLOR } from '@/components/ui/colors';
 import { darken } from '@/utils/darken';
 
@@ -7,8 +8,8 @@ type ButtonDisplay = 'block' | 'inline';
 type ButtonSize = 'small' | 'medium' | 'large';
 
 interface ButtonProps {
-  readonly buttonStyle: ButtonStyle;
   readonly buttonDisplay: ButtonDisplay;
+  readonly buttonStyle: ButtonStyle;
   readonly size: ButtonSize;
 }
 

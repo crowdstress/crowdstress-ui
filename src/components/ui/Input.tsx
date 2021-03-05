@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+
 import { BORDER_COLOR, PRIMARY_COLOR } from '@/components/ui/colors';
 
 export const Input = styled.input`

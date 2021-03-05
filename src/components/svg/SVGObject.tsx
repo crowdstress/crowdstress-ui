@@ -1,16 +1,16 @@
-import * as React from 'react';
-import { DrawingObject } from '@/models/drawingObject';
-import { SVGLine } from '@/components/svg/SVGLine';
-import '@/styles/svg.scss';
-import { SVGRect } from '@/components/svg/SVGRect';
 import { useEffect, useState } from 'react';
-import { SVGObjectComponentProps } from '@/components/svg/props';
+import * as React from 'react';
 import { useSelector } from 'react-redux';
-import { getDrawing } from '@/store/editor/params';
-import { getTool } from '@/store/editor/tool';
+
+import { SVGObjectComponentProps } from '@/components/svg/props';
 import { SVGEllipse } from '@/components/svg/SVGEllipse';
+import { SVGLine } from '@/components/svg/SVGLine';
 import { SVGQCurve } from '@/components/svg/SVGQCurve';
+import { SVGRect } from '@/components/svg/SVGRect';
 import { SVGSeparator } from '@/components/svg/SVGSeparator';
+import { DrawingObject } from '@/models/drawingObject';
+import { getDrawing, getTool } from '@/store/editor/selectors';
+import '@/styles/svg.scss';
 
 interface SVGObjectProps {
   object: DrawingObject;
@@ -27,9 +27,9 @@ export const SVGObject: React.FC<SVGObjectProps> = ({ object }) => {
   };
 
   const props: SVGObjectComponentProps = {
-    selected: isSelected,
-    onClick: handleClick,
     object,
+    onClick: handleClick,
+    selected: isSelected,
   };
 
   useEffect(() => {

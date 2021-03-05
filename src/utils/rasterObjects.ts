@@ -1,5 +1,5 @@
-import { DrawingObject } from '@/models/drawingObject';
 import { BACKGROUND_COLOR, EXIT_COLOR, OBJECT_COLOR } from '@/config';
+import { DrawingObject } from '@/models/drawingObject';
 
 export const rasterObjects = (objects: DrawingObject[], width: number, height: number): string | null => {
   const canvas = document.createElement('canvas');
@@ -26,15 +26,15 @@ export const rasterObjects = (objects: DrawingObject[], width: number, height: n
 
     if (type === 'line' || type === 'separator') {
       const [point1, point2] = points;
-      ctx.moveTo(...point1);
-      ctx.lineTo(...point2);
+      ctx.moveTo(point1.x, point1.y);
+      ctx.lineTo(point2.x, point2.y);
     }
 
     if (type === 'rect') {
       const [point1, point2] = points;
-      const rectWidth = Math.abs(point2[0] - point1[0]);
-      const rectHeight = Math.abs(point2[1] - point1[1]);
-      ctx.strokeRect(point1[0], point1[1], rectWidth, rectHeight);
+      const rectWidth = Math.abs(point2.x - point1.x);
+      const rectHeight = Math.abs(point2.y - point1.y);
+      ctx.strokeRect(point1.x, point1.y, rectWidth, rectHeight);
     }
 
     ctx.stroke();

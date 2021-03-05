@@ -1,7 +1,8 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { getRooms } from '@/store/editor/rooms';
+
 import { Layer } from '@/components/editor/Layer';
+import { getRooms } from '@/store/editor/selectors';
 import { rgb2hex } from '@/utils/rgb2hex';
 
 const randomHex = (): string => {

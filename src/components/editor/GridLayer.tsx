@@ -11,9 +11,9 @@ export const GridLayer: React.FC = () => {
   return <div
     className="layer"
     style={{
-      overflow: 'hidden',
       backgroundImage: `url(${tiles[scale]})`,
       backgroundPosition: '-1px -1px',
+      overflow: 'hidden',
     }}
   />;
 };

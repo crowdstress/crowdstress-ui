@@ -1,4 +1,5 @@
 import { Reducer } from 'redux';
+
 import { Human } from '@/models/human';
 import { ADD_HUMAN, defaultHumans, HumansAction, SET_HUMANS } from '@/store/project/humans/types';
 

@@ -1,12 +1,18 @@
-import { Human } from '@/models/human';
-import { ADD_HUMAN, AddHumanAction, SET_HUMANS, SetHumansAction } from '@/store/project/humans/types';
+import {
+  ADD_HUMAN,
+  AddHumanAction,
+  AddHumanPayload,
+  SET_HUMANS,
+  SetHumansAction,
+  SetHumansPayload
+} from '@/store/project/humans/types';
 
-export const addHuman = (payload: Human): AddHumanAction => ({
-  type: ADD_HUMAN,
+export const addHuman = (payload: AddHumanPayload): AddHumanAction => ({
   payload,
+  type: ADD_HUMAN,
 });
 
-export const setHumans = (payload: Human[]): SetHumansAction => ({
-  type: SET_HUMANS,
+export const setHumans = (payload: SetHumansPayload): SetHumansAction => ({
   payload,
+  type: SET_HUMANS,
 });

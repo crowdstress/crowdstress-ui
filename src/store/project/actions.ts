@@ -7,8 +7,8 @@ import {
 } from '@/store/project/types';
 
 export const createProject = (payload: CreateProjectPayload): CreateProjectAction => ({
-  type: CREATE_PROJECT,
   payload,
+  type: CREATE_PROJECT,
 });
 
 export const resetProject = (): ResetProjectAction => ({ type: RESET_PROJECT });

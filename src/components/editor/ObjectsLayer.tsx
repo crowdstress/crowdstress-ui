@@ -1,23 +1,24 @@
 import * as React from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
 import { Layer } from '@/components/editor/Layer';
+import { SVGCross } from '@/components/svg/SVGCross';
 import { SVGObject } from '@/components/svg/SVGObject';
-import { getTool } from '@/store/editor/tool';
+import { DEFAULT_CROSS_SIZE, DRAWING_OBJECT_ID } from '@/config';
+import { DrawingObject, DrawingObjectPoint } from '@/models/drawingObject';
+import { LayerEvent, LayerSize } from '@/models/layer';
+import { setParams } from '@/store/editor/params/actions';
 import {
   getDrawing,
   getGridSize,
   getIsLocked,
   getSnapToGrid,
-  setParams
-} from '@/store/editor/params';
-import { useEffect, useState } from 'react';
-import { DrawingObject, DrawingObjectPoint } from '@/models/drawingObject';
-import { getPointCoords } from '@/utils/getPointCoords';
-import { SVGCross } from '@/components/svg/SVGCross';
-import { DEFAULT_CROSS_SIZE, DRAWING_OBJECT_ID } from '@/config';
-import { LayerEvent, LayerSize } from '@/models/layer';
-import { getPresentObjects } from '@/store/project/objects/selectors';
+  getTool
+} from '@/store/editor/selectors';
 import { addObject } from '@/store/project/objects/actions';
+import { getPresentObjects } from '@/store/project/selectors';
+import { getPointCoords } from '@/utils/getPointCoords';
 
 export const ObjectsLayer: React.FC = () => {
   const tool = useSelector(getTool);
@@ -36,8 +37,8 @@ export const ObjectsLayer: React.FC = () => {
 
   const handleMouseMove = ({ x, y }: LayerEvent): void => {
     const point = getPointCoords(x, y, {
-      snapToGrid,
       gridSize,
+      snapToGrid,
     });
     setCursorPosition(point);
   };
@@ -46,8 +47,8 @@ export const ObjectsLayer: React.FC = () => {
     if (tool === 'cursor' || isLocked) return;
 
     const point = getPointCoords(x, y, {
-      snapToGrid,
       gridSize,
+      snapToGrid,
     });
 
     if (!drawing) dispatch(setParams({ drawing: true }));
@@ -68,9 +69,9 @@ export const ObjectsLayer: React.FC = () => {
 
     const object: DrawingObject = {
       id: Date.now().toString(),
-      type: tool,
       points,
       state: 'done',
+      type: tool,
     };
 
     if (isRectEllipseSeparatorDone) {
@@ -102,9 +103,9 @@ export const ObjectsLayer: React.FC = () => {
       <SVGObject
         object={{
           id: DRAWING_OBJECT_ID,
-          type: tool,
-          state: 'in-progress',
           points: [...points, cursorPosition],
+          state: 'in-progress',
+          type: tool,
         }} />
     }
     {

@@ -1,8 +1,9 @@
 import * as React from 'react';
+
 import { SVGObjectComponentProps } from '@/components/svg/props';
 import { SVGGroup } from '@/components/svg/SVGGroup';
-import { getClassName } from '@/utils/getClassName';
 import { DrawingObjectPoint } from '@/models/drawingObject';
+import { getClassName } from '@/utils/getClassName';
 
 type SVGQCurvePathsProps = Omit<SVGObjectComponentProps, 'onClick'>;
 

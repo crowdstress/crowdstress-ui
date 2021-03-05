@@ -1,14 +1,15 @@
 import { combineReducers, Reducer } from 'redux';
-import {
-  CREATE_PROJECT,
-  defaultProjectName,
-  defaultProjectOwner,
-  ProjectAction, RESET_PROJECT
-} from '@/store/project/types';
+
 import { Project, ProjectData } from '@/models/project';
-import { undoable } from '@/store/undoable';
 import { humans } from '@/store/project/humans/reducer';
 import { objects } from '@/store/project/objects/reducer';
+import {
+  CREATE_PROJECT,
+  defaultProject,
+  ProjectAction,
+  RESET_PROJECT
+} from '@/store/project/types';
+import { undoable } from '@/store/undoable';
 
 export const projectData: Reducer<ProjectData> = combineReducers({
   humans,
@@ -17,13 +18,12 @@ export const projectData: Reducer<ProjectData> = combineReducers({
 
 export const project = (reducer: typeof projectData): Reducer<Project> => {
   const initialState: Project = {
-    name: defaultProjectName,
-    owner: defaultProjectOwner,
+    ...defaultProject,
     data: reducer(undefined, { type: 'UNKNOWN' }),
   };
 
   return (state = initialState, action: ProjectAction): Project => {
-    const { name, owner, data } = state;
+    const { name, owner, isProtected, data } = state;
 
     if (action.type === CREATE_PROJECT) {
       return {
@@ -37,9 +37,10 @@ export const project = (reducer: typeof projectData): Reducer<Project> => {
     }
 
     return {
+      data: reducer(data, action),
+      isProtected,
       name,
       owner,
-      data: reducer(data, action),
     };
   };
 };

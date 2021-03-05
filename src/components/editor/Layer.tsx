@@ -1,8 +1,9 @@
 import * as React from 'react';
 import '@/styles/layer.scss';
 import { useEffect, useRef } from 'react';
-import { getClassName } from '@/utils/getClassName';
+
 import { LayerProps } from '@/models/layer';
+import { getClassName } from '@/utils/getClassName';
 
 type ReactLayerEvent = React.MouseEvent<HTMLDivElement>;
 
@@ -64,8 +65,8 @@ export const Layer: React.FC<LayerProps> =
       if (!layer.current || !onMount) return;
 
       onMount({
-        width: layer.current.offsetWidth,
         height: layer.current.offsetHeight,
+        width: layer.current.offsetWidth,
       });
     }, []);
 

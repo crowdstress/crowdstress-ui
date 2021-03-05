@@ -1,8 +1,8 @@
-import { Action } from '@/models/store';
 import { Project, ProjectData } from '@/models/project';
+import { Action } from '@/models/store';
 import { defaultHumans } from '@/store/project/humans/types';
-import { createUndoableState } from '@/store/undoable';
 import { defaultObjects } from '@/store/project/objects/types';
+import { createUndoableState } from '@/store/undoable';
 
 export const CREATE_PROJECT = 'project/CREATE_PROJECT' as const;
 export const RESET_PROJECT = 'project/RESET_PROJECT' as const;
@@ -17,7 +17,8 @@ export const defaultProjectData: ProjectData = {
   objects: createUndoableState(defaultObjects),
 };
 export const defaultProject: Project = {
+  data: defaultProjectData,
+  isProtected: false,
   name: defaultProjectName,
   owner: defaultProjectOwner,
-  data: defaultProjectData,
 };

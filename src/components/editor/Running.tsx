@@ -1,22 +1,23 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { fetchRooms, fetchWalls } from '@/api/handlers/objects';
+import { GetRoomsReply, GetWallsReply } from '@/api/objects';
+import IconRun from '@/assets/svg/menu/run.svg';
 import { getToolbarButtonMargin, Toolbar, ToolbarButtonWithTooltip, ToolbarDirection } from '@/components/ui/Toolbar';
-import { setRooms } from '@/store/editor/rooms';
+import { tooltipTextWithShortcut } from '@/components/ui/Tooltip';
+import { OPENCV_APPROXIMATE_EPS, SHORTCUT_RUN } from '@/config';
+import { useLoadedWasm } from '@/hooks/useWasm';
+import { App } from '@/models/app';
+import { convertObjectsToRust } from '@/models/drawingObject';
 import { Exit } from '@/models/exit';
 import { convertHumansToRust, Human } from '@/models/human';
 import { Room } from '@/models/room';
 import { Section } from '@/models/section';
-import { App } from '@/models/app';
+import { setRooms } from '@/store/editor/rooms/actions';
+import { getLayerSize } from '@/store/editor/selectors';
 import { setHumans } from '@/store/project/humans/actions';
-import { GetRoomsReply, GetWallsReply } from '@/api/objects';
-import { fetchRooms, fetchWalls } from '@/api/handlers/objects';
-import { OPENCV_APPROXIMATE_EPS } from '@/config';
-import { convertObjectsToRust } from '@/models/drawingObject';
-import { useDispatch, useSelector } from 'react-redux';
-import { useLoadedWasm } from '@/hooks/useWasm';
-import { getPresentObjects, getRunAbility } from '@/store/project/objects/selectors';
-import { getHumans } from '@/store/project/humans/selectors';
-import { getLayerSize } from '@/store/editor/params';
-import IconRun from '@/assets/svg/menu/run.svg';
+import { getHumans, getPresentObjects, getRunAbility } from '@/store/project/selectors';
 
 const TOOLBAR_DIRECTION: ToolbarDirection = 'column';
 const TOOLBAR_BUTTON_MARGIN = getToolbarButtonMargin(TOOLBAR_DIRECTION);
@@ -48,8 +49,8 @@ export const Running: React.FC = () => {
     const exits: Exit[] = objects.filter(object => object.type === 'separator').map(object => ({
       id: object.id,
       section: {
-        start: object.points[0],
         end: object.points[1],
+        start: object.points[0],
       },
     }));
 
@@ -63,11 +64,11 @@ export const Running: React.FC = () => {
     }
 
     const app: App = {
-      started: true,
+      exits,
       humans: convertHumansToRust(humans),
       rooms,
+      started: true,
       walls,
-      exits,
     };
     render(app);
   };
@@ -89,10 +90,10 @@ export const Running: React.FC = () => {
   const processRooms = async (): Promise<GetRoomsReply> => {
     const { width, height } = layerSize;
     return await fetchRooms({
-      width,
-      height,
       epsilon: OPENCV_APPROXIMATE_EPS,
+      height,
       objects: convertObjectsToRust(objects),
+      width,
     });
   };
 
@@ -100,16 +101,17 @@ export const Running: React.FC = () => {
     return await fetchWalls({ objects: convertObjectsToRust(objects) });
   };
 
-  return <Toolbar position={{
-    vertical: 'top',
-    horizontal: 'right',
-  }}
-  direction={TOOLBAR_DIRECTION}
+  return <Toolbar
+    position={{
+      horizontal: 'right',
+      vertical: 'top',
+    }}
+    direction={TOOLBAR_DIRECTION}
   >
     <ToolbarButtonWithTooltip
       margin={TOOLBAR_BUTTON_MARGIN}
       tooltipPosition="bottom"
-      text={'Run'}
+      text={tooltipTextWithShortcut('Run', SHORTCUT_RUN)}
       disabled={!canRun}
       onClick={run}
     >

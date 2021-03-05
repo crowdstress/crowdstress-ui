@@ -1,8 +1,9 @@
 import React, { useRef } from 'react';
-import { Portal } from '@/components/Portal';
 import styled from 'styled-components';
-import { PRIMARY_COLOR } from '@/components/ui/colors';
+
 import IconClose from '@/assets/svg/close.svg';
+import { Portal } from '@/components/Portal';
+import { PRIMARY_COLOR } from '@/components/ui/colors';
 
 const Wrapper = styled.div`
   position: fixed;
@@ -37,8 +38,8 @@ const ModalBody = styled.div`
 `;
 
 interface ModalWrapperProps {
-  title?: string;
   onClose?: () => void;
+  title?: string;
 }
 
 export const ModalWrapper: React.FC<ModalWrapperProps> =

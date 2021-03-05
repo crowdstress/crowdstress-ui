@@ -77,4 +77,8 @@ button {
     display: flex;
     justify-content: space-between;
   }
+
+  &-item-1 {
+    flex-grow: 1;
+  }
 }

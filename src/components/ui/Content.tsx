@@ -13,9 +13,5 @@ const slideUp = keyframes`
 `;
 
 export const Content = styled.div`
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   animation: ${slideUp} .5s ease-in-out;
 `;

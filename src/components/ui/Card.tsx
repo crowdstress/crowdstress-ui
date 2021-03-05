@@ -1,11 +1,12 @@
-import styled from 'styled-components';
-import { BLACK_COLOR, BORDER_COLOR, GRAY_COLOR, WHITE_COLOR } from '@/components/ui/colors';
 import React from 'react';
+import styled from 'styled-components';
+
+import { BLACK_COLOR, BORDER_COLOR, GRAY_COLOR, WHITE_COLOR } from '@/components/ui/colors';
 
 interface CardProps {
-  title?: string;
   description?: string;
   onClick?: () => void;
+  title?: string;
 }
 
 const CardContainer = styled.div`

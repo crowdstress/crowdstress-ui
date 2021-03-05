@@ -1,7 +1,6 @@
-import { DrawingObject } from '@/models/drawingObject';
-import { ADD_OBJECT, AddObjectAction } from '@/store/project/objects/types';
+import { ADD_OBJECT, AddObjectAction, AddObjectPayload } from '@/store/project/objects/types';
 
-export const addObject = (payload: DrawingObject): AddObjectAction => ({
-  type: ADD_OBJECT,
+export const addObject = (payload: AddObjectPayload): AddObjectAction => ({
   payload,
+  type: ADD_OBJECT,
 });

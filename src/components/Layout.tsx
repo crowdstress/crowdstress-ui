@@ -1,12 +1,13 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+
 import {
   BLACK_COLOR,
   BORDER_COLOR,
   PRIMARY_COLOR,
   WHITE_COLOR
 } from '@/components/ui/colors';
-import { Link } from 'react-router-dom';
 
 const LayoutContainer = styled.div`
   width: 100vw;
@@ -52,7 +53,7 @@ const NavbarTitleBadge = styled.sup`
   transition: color .25s ease-in-out;
 `;
 
-const Content = styled.div`
+export const LayoutContent = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -66,7 +67,7 @@ export const Layout: React.FC = ({ children }) => {
           <NavbarTitle>crowdstress<NavbarTitleBadge>α</NavbarTitleBadge></NavbarTitle>
         </Link>
       </Navbar>
-      <Content>{ children }</Content>
+      <LayoutContent>{ children }</LayoutContent>
     </LayoutInner>
   </LayoutContainer>;
 };
