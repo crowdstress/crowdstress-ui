@@ -1,11 +1,15 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { KEY_REDO, KEY_UNDO } from '@/config';
+import { KEY_REDO, KEY_TOGGLE_GRID, KEY_TOGGLE_SNAP, KEY_UNDO } from '@/config';
+import { setParams } from '@/store/editor/params/actions';
+import { getParams } from '@/store/editor/selectors';
 import { getRedoAbility, getUndoAbility } from '@/store/project/selectors';
 import { redo, undo } from '@/store/undoable';
 
 export const useKeyboard = (): void => {
+  const params = useSelector(getParams);
+  const { snapToGrid, snapToNodes } = params;
   const canUndo = useSelector(getUndoAbility);
   const canRedo = useSelector(getRedoAbility);
   const dispatch = useDispatch();
@@ -28,6 +32,16 @@ export const useKeyboard = (): void => {
       dispatch(redo());
       return;
     }
+
+    if (e.key.toUpperCase() === KEY_TOGGLE_GRID) {
+      dispatch(setParams({ snapToGrid: !snapToGrid }));
+      return;
+    }
+
+    if (e.key.toUpperCase() === KEY_TOGGLE_SNAP) {
+      dispatch(setParams({ snapToNodes: !snapToNodes }));
+      return;
+    }
   };
 
   useEffect(() => {
@@ -35,5 +49,5 @@ export const useKeyboard = (): void => {
     document.addEventListener('keydown', handleKeyDown);
 
     return (): void => document.removeEventListener('keydown', handleKeyDown);
-  }, [canUndo, canRedo]);
+  }, [params, canUndo, canRedo]);
 };
