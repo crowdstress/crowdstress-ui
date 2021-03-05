@@ -41,3 +41,5 @@ export const SHORTCUT_TOGGLE_CANVAS_LOCK = 'Ctrl + L';
 export const KEY_DELETE_OBJECTS = 'Delete';
 export const KEY_RUN = 'F5';
 export const SHORTCUT_RUN = 'F5';
+
+export const APP_BASE_TITLE = 'CrowdStress';

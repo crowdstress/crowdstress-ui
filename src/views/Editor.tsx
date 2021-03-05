@@ -44,11 +44,20 @@ export const EditorView: React.FC = () => {
   const [WasmProvider, wasm] = useWasm();
   const { state } = wasm;
 
+  const handleBeforeUnload = (e: Event): boolean => {
+    // side-effects
+    e.returnValue = true;
+    return e.returnValue;
+  };
+
   useKeyboard();
 
   useEffect(() => {
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
     return (): void => {
       dispatch(resetProject());
+      window.removeEventListener('beforeunload', handleBeforeUnload);
     };
   }, []);
 
