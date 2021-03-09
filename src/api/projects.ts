@@ -1,16 +1,25 @@
 import { DrawingObject } from '@/models/drawingObject';
 import { Human } from '@/models/human';
 
-export interface NewProjectArgs {
+export type NewProjectArgs = {
   name: string;
 }
-export interface NewProjectReply {
+export type NewProjectReply = {
   id: number;
   name: string;
   updatedAt: string;
 }
 
-export interface SaveProjectArgs {
+export type GetProjectsArgs = {
+  name?: string;
+}
+export type GetProjectsReply = {
+  id: string;
+  name: string;
+  updatedAt: string;
+}
+
+export type SaveProjectArgs = {
   data: {
     humans: Human[];
     objects: DrawingObject[];
@@ -18,7 +27,7 @@ export interface SaveProjectArgs {
   id: number;
   name: string;
 }
-export interface SaveProjectReply {
+export type SaveProjectReply = {
   data: {
     humans: Human[];
     objects: DrawingObject[];

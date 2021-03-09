@@ -1,8 +1,8 @@
+/* eslint-disable sort-keys,import/order */
 import * as path from 'path';
 import * as webpack from 'webpack';
 import HtmlWebPackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-
 
 const htmlPlugin = new HtmlWebPackPlugin({ template: path.resolve(__dirname, 'public', 'index.html') });
 const cssPlugin = new MiniCssExtractPlugin({

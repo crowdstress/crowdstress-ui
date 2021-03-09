@@ -12,6 +12,7 @@ import { setUser } from '@/store/app/user/actions';
 const NavbarContainer = styled.nav`
   height: 4rem;
   display: flex;
+  flex-shrink: 0;
   align-items: center;
   justify-content: space-between;
   padding: 0 1.25rem;

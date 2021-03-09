@@ -1,23 +1,23 @@
 import { User } from '@/models/user';
 
-export interface WhoamiReply {
+export type WhoamiReply = {
   user: User;
 }
 
-export interface LoginArgs {
+export type LoginArgs = {
   email: string;
   password: string;
 }
 
-export interface LoginReply {
+export type LoginReply = {
   user: User;
 }
 
-export interface SignupArgs {
+export type SignupArgs = {
   email: string;
   password: string;
 }
 
-export interface SignupReply {
+export type SignupReply = {
   user: User;
 }
