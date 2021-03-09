@@ -1,3 +1,4 @@
+import { App } from '@/models/app';
 import { Editor } from '@/models/editor';
 import { Project } from '@/models/project';
 
@@ -6,6 +7,7 @@ export type ActionCreator<T, P = void> = P extends void ? () => Action<T> : (pay
 export type RootSelector<T> = (state: State) => T;
 
 export interface State {
+  app: App;
   editor: Editor;
   project: Project;
 }

@@ -4,7 +4,6 @@ import { Editor } from '@/models/editor';
 import { RootSelector } from '@/models/store';
 import { createEqualSelector } from '@/store/createEqualSelector';
 
-
 // Common
 export const getEditor: RootSelector<Editor> = state => state.editor;
 

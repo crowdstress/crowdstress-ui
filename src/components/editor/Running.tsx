@@ -8,12 +8,12 @@ import { getToolbarButtonMargin, Toolbar, ToolbarButtonWithTooltip, ToolbarDirec
 import { tooltipTextWithShortcut } from '@/components/ui/Tooltip';
 import { OPENCV_APPROXIMATE_EPS, SHORTCUT_RUN } from '@/config';
 import { useLoadedWasm } from '@/hooks/useWasm';
-import { App } from '@/models/app';
 import { convertObjectsToRust } from '@/models/drawingObject';
 import { Exit } from '@/models/exit';
 import { convertHumansToRust, Human } from '@/models/human';
 import { Room } from '@/models/room';
 import { Section } from '@/models/section';
+import { WasmApp } from '@/models/wasmApp';
 import { setRooms } from '@/store/editor/rooms/actions';
 import { getLayerSize } from '@/store/editor/selectors';
 import { setHumans } from '@/store/project/humans/actions';
@@ -63,7 +63,7 @@ export const Running: React.FC = () => {
       return;
     }
 
-    const app: App = {
+    const app: WasmApp = {
       exits,
       humans: convertHumansToRust(humans),
       rooms,
@@ -73,7 +73,7 @@ export const Running: React.FC = () => {
     render(app);
   };
 
-  const render = (app: App): void => {
+  const render = (app: WasmApp): void => {
     if (!wasm) {
       alert('err');
       return;
