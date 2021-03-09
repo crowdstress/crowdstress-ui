@@ -2,6 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { fetchRooms, fetchWalls } from '@/api/handlers/objects';
+import { saveProject } from '@/api/handlers/projects';
 import { GetRoomsReply, GetWallsReply } from '@/api/objects';
 import IconRun from '@/assets/svg/menu/run.svg';
 import { getToolbarButtonMargin, Toolbar, ToolbarButtonWithTooltip, ToolbarDirection } from '@/components/ui/Toolbar';
@@ -16,19 +17,45 @@ import { Section } from '@/models/section';
 import { WasmApp } from '@/models/wasmApp';
 import { setRooms } from '@/store/editor/rooms/actions';
 import { getLayerSize } from '@/store/editor/selectors';
+import { updateProject } from '@/store/project/actions';
 import { setHumans } from '@/store/project/humans/actions';
-import { getHumans, getPresentObjects, getRunAbility } from '@/store/project/selectors';
+import {
+  getHumans,
+  getPresentObjects,
+  getProjectData,
+  getProjectMetadata,
+  getRunAbility
+} from '@/store/project/selectors';
 
-const TOOLBAR_DIRECTION: ToolbarDirection = 'column';
+const TOOLBAR_DIRECTION: ToolbarDirection = 'row';
 const TOOLBAR_BUTTON_MARGIN = getToolbarButtonMargin(TOOLBAR_DIRECTION);
 
 export const Running: React.FC = () => {
+  const { id, name } = useSelector(getProjectMetadata);
+  const data = useSelector(getProjectData);
   const objects = useSelector(getPresentObjects);
   const humans = useSelector(getHumans);
   const layerSize = useSelector(getLayerSize);
   const canRun = useSelector(getRunAbility);
   const dispatch = useDispatch();
   const { wasm } = useLoadedWasm();
+
+  const save = async (): Promise<void> => {
+    if (!name || !id) return;
+
+    const res = await saveProject({
+      data: {
+        humans: data.humans,
+        objects: data.objects.present,
+      },
+      id,
+      name,
+    });
+    if (res.__state === 'success' && res.data) {
+      const { updatedAt } = res.data;
+      dispatch(updateProject({ updatedAt }));
+    }
+  };
 
   const run = async (): Promise<void> => {
     const resRooms = await processRooms();
@@ -108,6 +135,14 @@ export const Running: React.FC = () => {
     }}
     direction={TOOLBAR_DIRECTION}
   >
+    <ToolbarButtonWithTooltip
+      margin={TOOLBAR_BUTTON_MARGIN}
+      text={tooltipTextWithShortcut('Save', 'Ctrl + S')}
+      tooltipPosition="bottom"
+      onClick={save}
+    >
+      ss
+    </ToolbarButtonWithTooltip>
     <ToolbarButtonWithTooltip
       margin={TOOLBAR_BUTTON_MARGIN}
       tooltipPosition="bottom"

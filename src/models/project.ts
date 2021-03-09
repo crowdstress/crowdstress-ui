@@ -9,7 +9,9 @@ export interface ProjectData {
 
 export interface Project {
   data: ProjectData;
-  isProtected: boolean;
+  id: number | null;
   name: string | null;
-  owner: string | null;
+  updatedAt: string | null;
 }
+
+export type ProjectMetadata = Pick<Project, 'id' | 'name'>;

@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 
-import { Project } from '@/models/project';
+import { Project, ProjectMetadata } from '@/models/project';
 import { RootSelector } from '@/models/store';
 import { createEqualSelector } from '@/store/createEqualSelector';
 
@@ -8,10 +8,12 @@ import { createEqualSelector } from '@/store/createEqualSelector';
 export const getProject: RootSelector<Project> = state => state.project;
 
 // Project
-export const getProjectName = createSelector(getProject, result => result.name);
-export const getProjectOwner = createSelector(getProject, result => result.owner);
+export const getProjectMetadata = createSelector(getProject, ({ id, name }): ProjectMetadata => ({
+  id,
+  name,
+}));
 export const getProjectData = createEqualSelector(getProject, result => result.data);
-export const getIsInitialized = createSelector(getProject, result => result.name !== null && result.owner !== null);
+export const getIsInitialized = createSelector(getProject, result => result.name !== null);
 
 // Humans
 export const getHumans = createEqualSelector(getProject, result => result.data.humans);

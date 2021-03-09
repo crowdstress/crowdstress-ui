@@ -1,45 +1,30 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
-import styled from 'styled-components';
 
-import IconInfo from '@/assets/svg/info.svg';
+import { newProject } from '@/api/handlers/projects';
 import { Button } from '@/components/ui/Button';
-import { Checkbox } from '@/components/ui/Checkbox';
 import { Input } from '@/components/ui/Input';
-import { Tooltip } from '@/components/ui/Tooltip';
 import { Widget } from '@/components/ui/Widget';
 import { createProject } from '@/store/project/actions';
-
-
-const ProtectBlock = styled.div`
-  margin: 0 .25rem 1.25rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`;
-
-const TooltipText = styled.div`
-  min-width: 10rem;
-`;
 
 export const CreateProject: React.FC = () => {
   const [name, setName] = useState('');
   const [inProgress, setInProgress] = useState(false);
-  const [isProtected, setProtected] = useState(false);
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const handleSubmit = (e: React.FormEvent): void => {
+  const handleSubmit = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
     setInProgress(true);
-    dispatch(createProject({
-      isProtected: isProtected,
-      name: name.trim(),
-      owner: 'test',
-    }));
+
+    const res = await newProject({ name: name.trim() });
+    if (res.__state === 'success' && res.data) {
+      dispatch(createProject(res.data));
+      history.push('/editor');
+      return;
+    }
     setInProgress(false);
-    history.push('/editor');
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -57,17 +42,6 @@ export const CreateProject: React.FC = () => {
         autoFocus
         required
       />
-      <ProtectBlock>
-        <Checkbox value={isProtected} onChange={setProtected} label={'Protect your project'} />
-        <Tooltip
-          position="right"
-          text={<TooltipText>Your project will be signed with your personal secret key. Even if somebody tries to upload project file, it will be rejected and reported</TooltipText>}
-        >
-          <div className="icon-wrapper-s">
-            <IconInfo className="icon-gray" />
-          </div>
-        </Tooltip>
-      </ProtectBlock>
       <Button
         type="submit"
         buttonDisplay="block"

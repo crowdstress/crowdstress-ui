@@ -7,7 +7,7 @@ import {
   CREATE_PROJECT,
   defaultProject,
   ProjectAction,
-  RESET_PROJECT
+  RESET_PROJECT, UPDATE_PROJECT
 } from '@/store/project/types';
 import { undoable } from '@/store/undoable';
 
@@ -23,7 +23,7 @@ export const project = (reducer: typeof projectData): Reducer<Project> => {
   };
 
   return (state = initialState, action: ProjectAction): Project => {
-    const { name, owner, isProtected, data } = state;
+    const { name, id, data, updatedAt } = state;
 
     if (action.type === CREATE_PROJECT) {
       return {
@@ -36,11 +36,18 @@ export const project = (reducer: typeof projectData): Reducer<Project> => {
       return initialState;
     }
 
+    if (action.type === UPDATE_PROJECT) {
+      return {
+        ...state,
+        ...action.payload,
+      };
+    }
+
     return {
       data: reducer(data, action),
-      isProtected,
+      id,
       name,
-      owner,
+      updatedAt,
     };
   };
 };
