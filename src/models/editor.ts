@@ -16,3 +16,7 @@ export interface Editor {
   rooms: Room[];
   tool: Tool;
 }
+
+export interface EditorLocationState {
+  id: number;
+}

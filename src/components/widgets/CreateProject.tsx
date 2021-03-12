@@ -1,18 +1,16 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
 
 import { newProject } from '@/api/handlers/projects';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Widget } from '@/components/ui/Widget';
-import { createProject } from '@/store/project/actions';
+import { EditorLocationState } from '@/models/editor';
 
 export const CreateProject: React.FC = () => {
   const [name, setName] = useState('');
   const [inProgress, setInProgress] = useState(false);
-  const dispatch = useDispatch();
-  const history = useHistory();
+  const history = useHistory<EditorLocationState>();
 
   const handleSubmit = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
@@ -20,8 +18,8 @@ export const CreateProject: React.FC = () => {
 
     const res = await newProject({ name: name.trim() });
     if (res.__state === 'success' && res.data) {
-      dispatch(createProject(res.data));
-      history.push('/editor');
+      const { id } = res.data;
+      history.push('/editor', { id });
       return;
     }
     setInProgress(false);

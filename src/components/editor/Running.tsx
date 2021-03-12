@@ -9,9 +9,11 @@ import { getToolbarButtonMargin, Toolbar, ToolbarButtonWithTooltip, ToolbarDirec
 import { tooltipTextWithShortcut } from '@/components/ui/Tooltip';
 import { OPENCV_APPROXIMATE_EPS, SHORTCUT_RUN } from '@/config';
 import { useLoadedWasm } from '@/hooks/useWasm';
-import { convertObjectsToRust } from '@/models/drawingObject';
+import { convertObjectsToRust, DrawingObject } from '@/models/drawingObject';
 import { Exit } from '@/models/exit';
 import { convertHumansToRust, Human } from '@/models/human';
+import { LayerSize } from '@/models/layer';
+import { ProjectData, ProjectMetadata } from '@/models/project';
 import { Room } from '@/models/room';
 import { Section } from '@/models/section';
 import { WasmApp } from '@/models/wasmApp';
@@ -30,13 +32,17 @@ import {
 const TOOLBAR_DIRECTION: ToolbarDirection = 'row';
 const TOOLBAR_BUTTON_MARGIN = getToolbarButtonMargin(TOOLBAR_DIRECTION);
 
-export const Running: React.FC = () => {
-  const { id, name } = useSelector(getProjectMetadata);
-  const data = useSelector(getProjectData);
-  const objects = useSelector(getPresentObjects);
-  const humans = useSelector(getHumans);
-  const layerSize = useSelector(getLayerSize);
-  const canRun = useSelector(getRunAbility);
+interface RunningComponentProps {
+  canRun: boolean;
+  data: ProjectData;
+  humans: Human[];
+  layerSize: LayerSize;
+  metadata: ProjectMetadata;
+  objects: DrawingObject[];
+}
+
+export const RunningComponent: React.FC<RunningComponentProps> = ({ canRun, data, humans, layerSize, metadata, objects }) => {
+  const { id, name } = metadata;
   const dispatch = useDispatch();
   const { wasm } = useLoadedWasm();
 
@@ -153,4 +159,23 @@ export const Running: React.FC = () => {
       <IconRun />
     </ToolbarButtonWithTooltip>
   </Toolbar>;
+};
+
+export const Running: React.FC = () => {
+  const canRun = useSelector(getRunAbility);
+  const data = useSelector(getProjectData);
+  const humans = useSelector(getHumans);
+  const layerSize = useSelector(getLayerSize);
+  const metadata = useSelector(getProjectMetadata);
+  const objects = useSelector(getPresentObjects);
+
+  return data && humans && metadata && objects
+    ? <RunningComponent
+      canRun={canRun}
+      data={data}
+      humans={humans}
+      layerSize={layerSize}
+      metadata={metadata}
+      objects={objects} />
+    : null;
 };

@@ -1,7 +1,7 @@
 import {
-  CREATE_PROJECT,
-  CreateProjectAction,
-  CreateProjectPayload,
+  SET_PROJECT,
+  SetProjectAction,
+  SetProjectPayload,
   RESET_PROJECT,
   ResetProjectAction,
   UPDATE_PROJECT,
@@ -9,9 +9,9 @@ import {
   UpdateProjectPayload
 } from '@/store/project/types';
 
-export const createProject = (payload: CreateProjectPayload): CreateProjectAction => ({
+export const setProject = (payload: SetProjectPayload): SetProjectAction => ({
   payload,
-  type: CREATE_PROJECT,
+  type: SET_PROJECT,
 });
 
 export const resetProject = (): ResetProjectAction => ({ type: RESET_PROJECT });

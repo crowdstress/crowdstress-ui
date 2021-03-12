@@ -1,5 +1,6 @@
 import { debounce } from 'lodash';
 import React, { useCallback, useEffect, useState } from 'react';
+import { useHistory } from 'react-router';
 import styled from 'styled-components';
 
 import { getProjects } from '@/api/handlers/projects';
@@ -58,10 +59,12 @@ const ProjectUpdatedAt = styled.div`
   line-height: 1.25rem;
 `;
 
-type ProjectProps = GetProjectsReply;
+type ProjectProps = Omit<GetProjectsReply, 'id'> & {
+  onClick?: () => void;
+};
 
-const Project: React.FC<ProjectProps> = ({ name, updatedAt }) =>
-  <ProjectCard>
+const Project: React.FC<ProjectProps> = ({ name, updatedAt, onClick }) =>
+  <ProjectCard onClick={onClick}>
     <ProjectName>{ name }</ProjectName>
     <ProjectUpdatedAt>{ updatedAt }</ProjectUpdatedAt>
   </ProjectCard>;
@@ -69,6 +72,11 @@ const Project: React.FC<ProjectProps> = ({ name, updatedAt }) =>
 export const Main: React.FC = () => {
   const [projects, setProjects] = useState<GetProjectsReply[]>([]);
   const [query, setQuery] = useState('');
+  const history = useHistory();
+
+  const handleProjectClick = (id: string): void => {
+    history.push('/editor', { id });
+  };
 
   const handleQueryChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setQuery(e.target.value.trim());
@@ -104,7 +112,15 @@ export const Main: React.FC = () => {
       </ProjectsSearch>
     </ProjectsHeader>
     <ProjectsLayout>
-      { projects.map((project, index) => <Project key={`project-${index}`} {...project} />) }
+      {
+        projects.map(({ id, name, updatedAt }, index) =>
+          <Project
+            key={`project-${index}`}
+            name={name}
+            updatedAt={updatedAt}
+            onClick={(): void => handleProjectClick(id)}
+          />)
+      }
     </ProjectsLayout>
   </div>;
 };

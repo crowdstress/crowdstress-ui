@@ -9,9 +9,11 @@ export interface ProjectData {
 
 export interface Project {
   data: ProjectData;
-  id: number | null;
-  name: string | null;
-  updatedAt: string | null;
+  id: number;
+  name: string;
+  updatedAt: string;
 }
 
 export type ProjectMetadata = Pick<Project, 'id' | 'name'>;
+
+export type ProjectState = Project | null;

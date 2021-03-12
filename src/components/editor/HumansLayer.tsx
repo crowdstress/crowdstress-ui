@@ -5,15 +5,20 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Layer } from '@/components/editor/Layer';
 import { DEFAULT_HUMAN_DISTANCE, HUMAN_PANIC_HSL, HUMAN_SIZE } from '@/config';
 import { DrawingObjectPoint } from '@/models/drawingObject';
+import { Human } from '@/models/human';
 import { LayerEvent } from '@/models/layer';
+import { Tool } from '@/models/tool';
 import { getTool } from '@/store/editor/selectors';
 import { addHuman } from '@/store/project/humans/actions';
 import { getHumans } from '@/store/project/selectors';
 import { randomInt } from '@/utils/randomInt';
 
-export const HumansLayer: React.FC = () => {
-  const tool = useSelector(getTool);
-  const humans = useSelector(getHumans);
+interface HumansLayerComponentProps {
+  humans: Human[];
+  tool: Tool;
+}
+
+const HumansLayerComponent: React.FC<HumansLayerComponentProps> = ({ humans, tool }) => {
   const [drawing, setDrawing] = useState(false);
   const dispatch = useDispatch();
 
@@ -32,6 +37,8 @@ export const HumansLayer: React.FC = () => {
   };
 
   const placeHuman = (point: DrawingObjectPoint): void => {
+    if (!humans) return;
+
     const isHumanNear = humans.find(({ coords }) => {
       const dx = point.x - coords.x;
       const dy = point.y - coords.y;
@@ -66,4 +73,11 @@ export const HumansLayer: React.FC = () => {
       })
     }
   </Layer>;
+};
+
+export const HumansLayer: React.FC = () => {
+  const tool = useSelector(getTool);
+  const humans = useSelector(getHumans);
+
+  return humans ? <HumansLayerComponent humans={humans} tool={tool} /> : null;
 };

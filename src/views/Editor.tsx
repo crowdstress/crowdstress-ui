@@ -1,9 +1,11 @@
 import * as React from 'react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router';
 import { Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 
+import { getProject } from '@/api/handlers/projects';
 import { Actions } from '@/components/editor/Actions';
 import { GridLayer } from '@/components/editor/GridLayer';
 import { HumansLayer } from '@/components/editor/HumansLayer';
@@ -14,9 +16,9 @@ import { Running } from '@/components/editor/Running';
 import { Tools } from '@/components/editor/Tools';
 import { useKeyboard } from '@/hooks/useKeyboard';
 import { useWasm } from '@/hooks/useWasm';
+import { EditorLocationState } from '@/models/editor';
 import { getSnapToGrid } from '@/store/editor/selectors';
-import { resetProject } from '@/store/project/actions';
-import { getIsInitialized } from '@/store/project/selectors';
+import { resetProject, setProject } from '@/store/project/actions';
 
 const EditorLayout = styled.div`
   position: relative;
@@ -43,21 +45,23 @@ export const EditorView: React.FC = () => {
   const dispatch = useDispatch();
   const [WasmProvider, wasm] = useWasm();
   const { state } = wasm;
-
-  const handleBeforeUnload = (e: Event): boolean => {
-    // side-effects
-    e.returnValue = true;
-    return e.returnValue;
-  };
+  const location = useLocation<EditorLocationState>();
+  const { id } = location.state;
 
   useKeyboard();
 
+  const loadProject = async (): Promise<void> => {
+    const res = await getProject({ id });
+    if (res.__state === 'success' && res.data) {
+      dispatch(setProject(res.data));
+    }
+  };
+
   useEffect(() => {
-    window.addEventListener('beforeunload', handleBeforeUnload);
+    loadProject().then();
 
     return (): void => {
       dispatch(resetProject());
-      window.removeEventListener('beforeunload', handleBeforeUnload);
     };
   }, []);
 
@@ -96,6 +100,8 @@ export const EditorView: React.FC = () => {
 
 // Protector
 export const Editor: React.FC = () => {
-  const isProjectInitialized = useSelector(getIsInitialized);
-  return isProjectInitialized ? <EditorView /> : <Redirect to="/" />;
+  const { state } = useLocation<EditorLocationState>();
+  const shouldRedirect = !state || !state.id;
+
+  return shouldRedirect ? <Redirect to="/" /> : <EditorView />;
 };

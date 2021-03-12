@@ -19,6 +19,19 @@ export type GetProjectsReply = {
   updatedAt: string;
 }
 
+export type GetProjectArgs = {
+  id: number;
+}
+export type GetProjectReply = {
+  data: {
+    humans: Human[];
+    objects: DrawingObject[];
+  };
+  id: number;
+  name: string;
+  updatedAt: string;
+}
+
 export type SaveProjectArgs = {
   data: {
     humans: Human[];
