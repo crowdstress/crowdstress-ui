@@ -26,8 +26,8 @@ const ProjectsSearch = styled.div`
 
 const ProjectsLayout = styled.div`
   display: grid;
-  grid-gap: 2rem;
-  grid-template: 1fr 1fr / 1fr 1fr;
+  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+  grid-gap: 1rem;
   padding: 0 1rem;
   overflow-x: hidden;
   overflow-y: auto;
@@ -69,7 +69,7 @@ const Project: React.FC<ProjectProps> = ({ name, updatedAt, onClick }) =>
     <ProjectUpdatedAt>{ updatedAt }</ProjectUpdatedAt>
   </ProjectCard>;
 
-export const Main: React.FC = () => {
+export const Projects: React.FC = () => {
   const [projects, setProjects] = useState<GetProjectsReply[]>([]);
   const [query, setQuery] = useState('');
   const history = useHistory();

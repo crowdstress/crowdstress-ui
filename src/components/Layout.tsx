@@ -16,12 +16,14 @@ const LayoutInner = styled.div`
   display: flex;
   flex-direction: column;
   background: #fafafc;
+  min-height: 0;
 `;
 
 export const LayoutContent = styled.div`
-  flex: 1 0 auto;
+  flex: 1 1 auto;
   display: flex;
   flex-direction: column;
+  min-height: 0;
 `;
 
 export const Layout: React.FC = ({ children }) => {

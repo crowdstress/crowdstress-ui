@@ -23,7 +23,7 @@ export const Router: React.FC = () => {
   };
 
   useEffect(() => {
-    fetchUser();
+    fetchUser().then();
   }, []);
 
   return <BrowserRouter>
