@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { BLACK_COLOR, BORDER_COLOR, GRAY_COLOR, WHITE_COLOR } from '@/components/ui/colors';
+import { fontPrimaryLight, fontPrimaryRegular } from '@/components/ui/fonts';
 
 interface CardProps {
   description?: string;
@@ -23,15 +24,13 @@ const CardContainer = styled.div`
 
 const CardTitle = styled.div`
   color: ${BLACK_COLOR};
-  font-weight: 400;
   margin-bottom: 1rem;
+  ${fontPrimaryRegular(16)};
 `;
 
 const CardDescription = styled.div`
   color: ${GRAY_COLOR};
-  font-size: .875rem;
-  font-weight: 300;
-  line-height: 1.25rem;
+  ${fontPrimaryLight(14)};
 `;
 
 export const Card: React.FC<CardProps> = ({ title, description, onClick }) =>

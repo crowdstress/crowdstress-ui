@@ -6,20 +6,20 @@ import styled from 'styled-components';
 import { logOut } from '@/api/handlers/user';
 import IconLogout from '@/assets/svg/logout.svg';
 import { BLACK_COLOR, BORDER_COLOR, PRIMARY_COLOR, WHITE_COLOR } from '@/components/ui/colors';
+import { flxAicJcc } from '@/components/ui/flex';
+import { fontPrimaryLight } from '@/components/ui/fonts';
 import { getUser } from '@/store/app/selectors';
 import { setUser } from '@/store/app/user/actions';
 
 const NavbarContainer = styled.nav`
   height: 4rem;
-  display: flex;
   flex-shrink: 0;
-  align-items: center;
-  justify-content: space-between;
   padding: 0 1.25rem;
   border-bottom: 1px solid ${BORDER_COLOR};
   user-select: none;
   background: ${WHITE_COLOR};
   transition: background .25s ease-in-out, border .25s ease-in-out;
+  ${flxAicJcc};
 `;
 
 const NavbarTitle = styled.div`
@@ -42,18 +42,15 @@ const NavbarTitleBadge = styled.sup`
 
 const NavbarUserEmail = styled.div`
   margin-right: 1rem;
-  font-weight: 300;
-  font-size: 1rem;
+  ${fontPrimaryLight(16)};
 `;
 
 const LogoutButton = styled.button`
   width: 3rem;
   height: 3rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   border-radius: .5rem;
   transition: background .15s ease-in-out;
+  ${flxAicJcc};
   &:hover {
     background: #f6f6f6;
   }

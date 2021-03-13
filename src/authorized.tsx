@@ -4,13 +4,11 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 
 import { getUser } from '@/store/app/selectors';
 import { Editor } from '@/views/Editor';
-import { NewProject } from '@/views/NewProject';
 import { Projects } from '@/views/Projects';
 
 const AuthorizedView: React.FC = () =>
   <Switch>
     <Route exact path="/editor" component={Editor} />
-    <Route exact path="/new" component={NewProject} />
     <Route exact path="/projects" component={Projects} />
     <Redirect to="/projects" />
   </Switch>;

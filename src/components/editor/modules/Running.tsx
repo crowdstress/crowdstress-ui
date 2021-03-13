@@ -55,6 +55,7 @@ export const RunningComponent: React.FC<RunningComponentProps> = ({ canRun, data
         objects: data.objects.present,
       },
       id,
+      layerSize,
       name,
     });
     if (res.__state === 'success' && res.data) {

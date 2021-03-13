@@ -1,5 +1,6 @@
 import { DrawingObject } from '@/models/drawingObject';
 import { Human } from '@/models/human';
+import { LayerSize } from '@/models/layer';
 
 export type NewProjectArgs = {
   name: string;
@@ -38,13 +39,9 @@ export type SaveProjectArgs = {
     objects: DrawingObject[];
   };
   id: number;
+  layerSize: LayerSize;
   name: string;
 }
 export type SaveProjectReply = {
-  data: {
-    humans: Human[];
-    objects: DrawingObject[];
-  };
-  name: string;
   updatedAt: string;
 }

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import { GRAY_50, WHITE_COLOR } from '@/components/ui/colors';
+import { fontPrimaryRegular } from '@/components/ui/fonts';
 
 const MARKER_SIZE = '.5rem';
 const MARKER_GAP = '.375rem';
@@ -152,10 +153,9 @@ const TooltipBox = styled.div<TooltipBoxProps>`
   opacity: ${({ isVisible }): number => isVisible ? 1 : 0};
   background: ${BACKGROUND};
   color: ${WHITE_COLOR};
-  font-size: .75rem;
-  line-height: 1.125rem;
   transition: opacity .15s ease-in-out;
   user-select: none;
+  ${fontPrimaryRegular(12)};
   &:before {
     content: '';
     display: block;
@@ -170,7 +170,7 @@ const TooltipBox = styled.div<TooltipBoxProps>`
     border-width: ${({ position }): string => before(position).borderWidth};
     border-color: ${({ position }): string => before(position).borderColor};
     border-style: solid;
-  }
+  };
 `;
 
 interface TooltipProps {

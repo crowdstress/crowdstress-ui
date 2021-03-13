@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { BORDER_COLOR, PRIMARY_COLOR, WHITE_COLOR } from '@/components/ui/colors';
+import { flxAicJcc } from '@/components/ui/flex';
 import { Position, Tooltip } from '@/components/ui/Tooltip';
 
 const MARGIN = '1rem' as const;
@@ -50,11 +51,9 @@ interface MarginProps {
 }
 
 const ToolbarItem = styled.button<MarginProps>`
-  display: flex;
-  align-items: center;
-  justify-content: center;
   border-radius: .5rem;
   background: ${WHITE_COLOR};
+  ${flxAicJcc};
   &:disabled {
     pointer-events: none;
   }
@@ -72,12 +71,10 @@ interface ActiveDisabledProps {
 const ToolbarItemIcon = styled.div<ActiveDisabledProps>`
   width: 3rem;
   height: 3rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   opacity: ${({ disabled }): number => disabled ? .5 : 1};
   border: 2px solid ${({ active }): string => active ? PRIMARY_COLOR : BORDER_COLOR};
   border-radius: .5rem;
+  ${flxAicJcc};
 `;
 
 type ToolbarButtonProps = MarginProps & {

@@ -1,29 +1,25 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import { flxCol } from '@/components/ui/flex';
 import { Navbar } from '@/components/ui/Navbar';
 
 const LayoutContainer = styled.div`
   width: 100vw;
   height: 100vh;
-  display: flex;
-  flex-direction: column;
   overflow: hidden;
+  ${flxCol};
 `;
 
 const LayoutInner = styled.div`
   flex: 1;
-  display: flex;
-  flex-direction: column;
   background: #fafafc;
-  min-height: 0;
+  ${flxCol};
 `;
 
 export const LayoutContent = styled.div`
-  flex: 1 1 auto;
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
+  flex: 1;
+  ${flxCol};
 `;
 
 export const Layout: React.FC = ({ children }) => {

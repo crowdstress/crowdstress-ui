@@ -4,7 +4,6 @@ import { useHistory } from 'react-router';
 import { newProject } from '@/api/handlers/projects';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
-import { Widget } from '@/components/ui/Widget';
 import { EditorLocationState } from '@/models/editor';
 
 export const CreateProject: React.FC = () => {
@@ -30,25 +29,23 @@ export const CreateProject: React.FC = () => {
     setName(e.target.value);
   };
 
-  return <Widget title={'New project'}>
-    <form onSubmit={handleSubmit}>
-      <Input
-        type="text"
-        placeholder={'Project name'}
-        value={name}
-        onChange={handleChange}
-        autoFocus
-        required
-      />
-      <Button
-        type="submit"
-        buttonDisplay="block"
-        buttonStyle="primary"
-        size="medium"
-        disabled={inProgress}
-      >
+  return <form onSubmit={handleSubmit}>
+    <Input
+      type="text"
+      placeholder={'Project name'}
+      value={name}
+      onChange={handleChange}
+      autoFocus
+      required
+    />
+    <Button
+      type="submit"
+      buttonDisplay="block"
+      buttonStyle="primary"
+      size="medium"
+      disabled={inProgress}
+    >
         Create
-      </Button>
-    </form>
-  </Widget>;
+    </Button>
+  </form>;
 };

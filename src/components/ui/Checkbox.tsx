@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { BORDER_COLOR, PRIMARY_COLOR } from '@/components/ui/colors';
+import { flxAicJcfs } from '@/components/ui/flex';
 
 const checkImage = 'data:image/svg+xml;charset=utf-8,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 54 54\' shape-rendering=\'geometricPrecision\' text-rendering=\'geometricPrecision\' image-rendering=\'optimizeQuality\' fill-rule=\'evenodd\' clip-rule=\'evenodd\'%3E%3Cpath d=\'M13.548 25.939l10.938 10.294L40.57 16.931\' fill=\'none\' stroke=\'%23fff\' stroke-width=\'5.147\'/%3E%3C/svg%3E';
 
@@ -18,13 +19,11 @@ interface CheckboxLabelProps {
 
 const CheckboxLabel = styled.label<CheckboxLabelProps>`
   width: max-content;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
   cursor: pointer;
   opacity: ${({ disabled }): number => disabled ? .6 : 1};
   user-select: none;
   font-weight: 300;
+  ${flxAicJcfs};
 `;
 
 const CheckboxInput = styled.input`

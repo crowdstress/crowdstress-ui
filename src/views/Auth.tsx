@@ -17,7 +17,6 @@ const AuthView: React.FC = () => {
   </div>;
 };
 
-// Protector
 export const Auth: React.FC = () => {
   const user = useSelector(getUser);
 

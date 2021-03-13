@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { BORDER_COLOR, WHITE_COLOR } from '@/components/ui/colors';
+import { fontPrimaryRegular } from '@/components/ui/fonts';
 
 interface WidgetProps {
   title?: string;
@@ -16,8 +17,8 @@ const WidgetContainer = styled.div`
 `;
 
 const WidgetTitle = styled.div`
-  font-size: 1.25rem;
   margin-bottom: 1.5rem;
+  ${fontPrimaryRegular(20)}
 `;
 
 export const Widget: React.FC<WidgetProps> = ({ title, children }) =>

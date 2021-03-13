@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import IconClose from '@/assets/svg/close.svg';
 import { Portal } from '@/components/Portal';
 import { PRIMARY_COLOR } from '@/components/ui/colors';
+import { fontPrimarySemibold } from '@/components/ui/fonts';
 
 const Wrapper = styled.div`
   position: fixed;
@@ -28,9 +29,8 @@ const ModalHeader = styled.div`
 `;
 
 const ModalTitle = styled.div`
-  font-size: 1.25rem;
-  font-weight: 600;
   color: ${PRIMARY_COLOR};
+  ${fontPrimarySemibold(20)};
 `;
 
 const ModalBody = styled.div`
