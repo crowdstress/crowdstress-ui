@@ -10,6 +10,8 @@ import { Button } from '@/components/ui/Button';
 import { flxAic } from '@/components/ui/flex';
 import { fontPrimaryRegular } from '@/components/ui/fonts';
 import { Input } from '@/components/ui/Input';
+import { SEARCH_WAIT } from '@/config';
+import { useUpdate } from '@/hooks/useUpdate';
 
 interface ProjectsHeaderProps {
   onSearch: (data: GetProjectsReply[]) => void;
@@ -58,9 +60,9 @@ export const ProjectsHeader: React.FC<ProjectsHeaderProps> = ({ onSearch }) => {
     }
   };
 
-  const fetchProjectsDebounce = useCallback(debounce(fetchProjects, 250), []);
+  const fetchProjectsDebounce = useCallback(debounce(fetchProjects, SEARCH_WAIT), []);
 
-  useEffect(() => {
+  useUpdate(() => {
     fetchProjectsDebounce(query);
   }, [query]);
 

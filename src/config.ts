@@ -1,5 +1,7 @@
 import { LayerSize } from '@/models/layer';
 
+export const SEARCH_WAIT = 250;
+
 export const DEFAULT_GRID_SIZE = 21;
 export const DEFAULT_CROSS_SIZE = 16;
 export const DEFAULT_LAYER_SIZE: LayerSize = {
