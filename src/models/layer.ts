@@ -4,15 +4,15 @@ export interface LayerEvent {
 }
 
 export interface LayerSize {
-  width: number;
   height: number;
+  width: number;
 }
 
 export interface LayerProps {
-  top?: boolean;
   onMount?: (e: LayerSize) => void;
-  onMouseMove?: (e: LayerEvent) => void;
   onMouseDown?: (e: LayerEvent) => void;
+  onMouseMove?: (e: LayerEvent) => void;
   onMouseUp?: (e: LayerEvent) => void;
   onRightClick?: (e: LayerEvent) => void;
+  top?: boolean;
 }

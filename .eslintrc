@@ -7,9 +7,10 @@
   },
   "extends": [
     "eslint:recommended",
-    "plugin:react/recommended",
     "plugin:@typescript-eslint/recommended",
-    "plugin:@typescript-eslint/eslint-recommended"
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:react/recommended",
+    "plugin:typescript-sort-keys/recommended"
   ],
   "globals": {
     "Atomics": "readonly",
@@ -24,22 +25,66 @@
     "sourceType": "module"
   },
   "plugins": [
+    "@typescript-eslint",
+    "import",
     "react",
-    "@typescript-eslint"
+    "typescript-sort-keys",
+    "unused-imports"
   ],
   "rules": {
     "@typescript-eslint/ban-types": "off",
     "@typescript-eslint/ban-ts-comment": "off",
     "@typescript-eslint/consistent-type-definitions": [
-      "error", "interface"
+      "error",
+      "interface"
     ],
     "@typescript-eslint/explicit-function-return-type": "error",
-    "@typescript-eslint/indent": ["error", 2],
+    "@typescript-eslint/indent": [
+      "error",
+      2
+    ],
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/no-inferrable-types": "off",
     "@typescript-eslint/no-unused-vars": [
-      "error", { "argsIgnorePattern": "^_" }],
+      "error",
+      {
+        "argsIgnorePattern": "^_"
+      }
+    ],
     "@typescript-eslint/prefer-interface": "off",
+    "import/order": [
+      "error",
+      {
+        "groups": [
+          "external",
+          "internal"
+        ],
+        "pathGroups": [
+          {
+            "pattern": "@/**",
+            "group": "internal",
+            "poition": "after"
+          }
+        ],
+        "pathGroupsExcludedImportTypes": [
+          "react"
+        ],
+        "newlines-between": "always",
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": true
+        }
+      }
+    ],
+    "sort-keys": [
+      "error",
+      "asc",
+      {
+        "caseSensitive": true,
+        "natural": false,
+        "minKeys": 2
+      }
+    ],
     "eol-last": "error",
     "linebreak-style": [
       "error",
@@ -96,7 +141,9 @@
   },
   "overrides": [
     {
-      "files": ["**/*.tsx"],
+      "files": [
+        "**/*.tsx"
+      ],
       "rules": {
         "react/prop-types": "off"
       }

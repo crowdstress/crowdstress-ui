@@ -68,10 +68,10 @@ const wrapper2 = (func: typeof Axios.post) => {
 export const cancelToken: CancelTokenStatic = Axios.CancelToken;
 
 export const rest = {
-  get: wrapper1(Axios.get),
   delete: wrapper1(Axios.delete),
+  get: wrapper1(Axios.get),
 
+  patch: wrapper2(Axios.patch),
   post: wrapper2(Axios.post),
   put: wrapper2(Axios.put),
-  patch: wrapper2(Axios.patch),
 } as const;

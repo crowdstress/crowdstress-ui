@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { SVGGroup } from '@/components/svg/SVGGroup';
+
 import { SVGObjectComponentProps } from '@/components/svg/props';
+import { SVGGroup } from '@/components/svg/SVGGroup';
 import { getClassName } from '@/utils/getClassName';
 
 export const SVGLine: React.FC<SVGObjectComponentProps> = ({ object, onClick, selected }) => {
@@ -11,8 +12,8 @@ export const SVGLine: React.FC<SVGObjectComponentProps> = ({ object, onClick, se
   const { x: x2, y: y2 } = point2;
   const props: React.SVGProps<SVGLineElement> = {
     x1,
-    y1,
     x2,
+    y1,
     y2,
   };
   return <SVGGroup onClick={onClick}>

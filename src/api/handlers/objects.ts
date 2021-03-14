@@ -2,7 +2,7 @@ import { GetRoomsArgs, GetRoomsReply, GetWallsArgs, GetWallsReply } from '@/api/
 import { AxiosRequestConfig, rest } from '@/utils/rest';
 
 export const fetchRooms = (args: GetRoomsArgs, config?: AxiosRequestConfig): GetRoomsReply =>
-  rest.post('/api/rooms', args, config);
+  rest.post('/api/math/rooms', args, config);
 
 export const fetchWalls = (args: GetWallsArgs, config?: AxiosRequestConfig): GetWallsReply =>
-  rest.post('/api/walls', args, config);
+  rest.post('/api/math/walls', args, config);

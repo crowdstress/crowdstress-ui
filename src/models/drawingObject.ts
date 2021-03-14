@@ -9,9 +9,9 @@ export interface DrawingObjectPoint {
 export type DrawingObjectState = 'in-progress' | 'done';
 export interface DrawingObject {
   id: DrawingObjectID;
-  type: DrawingObjectType;
   points: DrawingObjectPoint[];
   state: DrawingObjectState;
+  type: DrawingObjectType;
 }
 
 export type RustDrawingObject = Omit<DrawingObject, 'type' | 'state'> & { object_type: number; };
@@ -19,6 +19,6 @@ export type RustDrawingObject = Omit<DrawingObject, 'type' | 'state'> & { object
 export const convertObjectsToRust = (objects: DrawingObject[]): RustDrawingObject[] =>
   objects.map(({ id, points, type }) => ({
     id,
-    points,
     object_type: drawingObjectTypes.indexOf(type),
+    points,
   }));

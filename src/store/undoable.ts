@@ -1,6 +1,7 @@
+import { AnyAction, Reducer } from 'redux';
+
 import { ActionCreator } from '@/models/store';
 import { Undoable } from '@/models/undoable';
-import { AnyAction, Reducer } from 'redux';
 
 export const REDO = 'REDO' as const;
 export const RESET = 'RESET' as const;
@@ -16,17 +17,17 @@ export const undo: UndoActionCreator = () => ({ type: UNDO });
 
 export const createUndoableState = <T> (state: T): Undoable<T> =>
   ({
+    future: [],
     past: [],
     present: state,
-    future: [],
   });
 
 export const undoable =
   <S, A extends AnyAction> (reducer: Reducer<S, A>, bypass?: A['type'][]): Reducer<Undoable<S>, A> => {
     const initialState: Undoable<S> = {
+      future: [],
       past: [],
       present: reducer(undefined, { type: 'UNKNOWN' } as A),
-      future: [],
     };
 
     return (state = initialState, action): Undoable<S> => {
@@ -34,17 +35,17 @@ export const undoable =
 
       if (action.type === UNDO) {
         return {
+          future: [present, ...future],
           past: past.slice(0, past.length - 1),
           present: past[past.length - 1],
-          future: [present, ...future],
         };
       }
 
       if (action.type === REDO) {
         return {
+          future: future.slice(1),
           past: [...past, present],
           present: future[0],
-          future: future.slice(1),
         };
       }
 
@@ -59,9 +60,9 @@ export const undoable =
       }
 
       return {
+        future: [],
         past: bypass?.includes(action.type) ? past : [...past, present],
         present: newPresent,
-        future: [],
       };
     };
   };

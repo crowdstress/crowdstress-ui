@@ -1,4 +1,5 @@
 import * as React from 'react';
+
 import { DrawingObjectPoint } from '@/models/drawingObject';
 
 interface SVGCrossProps {

@@ -1,9 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
+
 * {
   margin: 0;
   padding: 0;
   outline: none;
   border: none;
-  font-family: sans-serif;
+  box-sizing: border-box;
+  font-family: 'Ubuntu', sans-serif;
+}
+
+a {
+  text-decoration: none;
 }
 
 button {
@@ -24,6 +32,7 @@ button {
   &-col {
     display: flex;
     flex-direction: column;
+    min-height: 0;
   }
 
   &-aic {
@@ -46,6 +55,18 @@ button {
   &-ais {
     display: flex;
     align-items: stretch;
+
+    &-jcc {
+      display: flex;
+      align-items: stretch;
+      justify-content: center;
+    }
+
+    &-jcsb {
+      display: flex;
+      align-items: stretch;
+      justify-content: space-between;
+    }
   }
 
   &-jcc {
@@ -56,5 +77,9 @@ button {
   &-jcsb {
     display: flex;
     justify-content: space-between;
+  }
+
+  &-item-1 {
+    flex-grow: 1;
   }
 }

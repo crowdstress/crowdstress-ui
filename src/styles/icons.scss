@@ -1,3 +1,5 @@
+@import "colors";
+
 @mixin icon-wrapper($value) {
   $size: ($value / 16.0) + 0rem;
 
@@ -7,13 +9,14 @@
   min-height: $size;
 
   svg {
-    max-width: 100%;
-    max-height: 100%;
+    width: 100%;
+    height: 100%;
     overflow: visible;
   }
 }
 
-.icon-wrapper-s { @include icon-wrapper(16); }
+.icon-wrapper-s { @include icon-wrapper(18); }
 .icon-wrapper-m { @include icon-wrapper(24); }
 
 .icon-black { fill: black }
+.icon-gray { fill: $gray }

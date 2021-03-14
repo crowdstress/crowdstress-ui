@@ -1,18 +1,18 @@
 import { RustDrawingObject } from '@/models/drawingObject';
-import { AxiosReply } from '@/utils/rest';
 import { Room } from '@/models/room';
 import { Section } from '@/models/section';
+import { AxiosReply } from '@/utils/rest';
 
-export interface GetRoomsArgs {
-  width: number,
-  height: number,
+export type GetRoomsArgs = {
   epsilon: number,
-  objects: RustDrawingObject[]
+  height: number,
+  objects: RustDrawingObject[],
+  width: number
 }
 
 export type GetRoomsReply = AxiosReply<Room[]>;
 
-export interface GetWallsArgs {
+export type GetWallsArgs = {
   objects: RustDrawingObject[];
 }
 

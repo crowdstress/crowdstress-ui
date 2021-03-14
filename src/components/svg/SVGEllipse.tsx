@@ -1,4 +1,5 @@
 import * as React from 'react';
+
 import { SVGObjectComponentProps } from '@/components/svg/props';
 import { SVGGroup } from '@/components/svg/SVGGroup';
 import { getClassName } from '@/utils/getClassName';

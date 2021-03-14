@@ -9,13 +9,13 @@ import {
 export type WASM_STATE = 'error' | 'pending' | 'ready';
 export type CrowdstressWasm = typeof import('@crowdstress/wasm');
 interface WasmObject {
-  wasm: CrowdstressWasm | null;
   state: WASM_STATE;
+  wasm: CrowdstressWasm | null;
 }
 
 const defaultWasmObject: WasmObject = {
-  wasm: null,
   state: 'pending',
+  wasm: null,
 };
 
 export const wasmContext = createContext<WasmObject>(defaultWasmObject);
@@ -28,14 +28,14 @@ export const useWasm = (): [Provider<WasmObject>, WasmObject] => {
       try {
         const wasm = await import('@crowdstress/wasm');
         setWasm({
-          wasm,
           state: 'ready',
+          wasm,
         });
       } catch (e) {
         console.error(e);
         setWasm({
-          wasm: null,
           state: 'error',
+          wasm: null,
         });
       }
     };
@@ -49,7 +49,7 @@ export const useWasm = (): [Provider<WasmObject>, WasmObject] => {
 export const useLoadedWasm = (): WasmObject => {
   const { wasm, state } = useContext(wasmContext);
   return {
-    wasm,
     state: state,
+    wasm,
   };
 };

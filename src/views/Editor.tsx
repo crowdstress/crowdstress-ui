@@ -1,45 +1,13 @@
 import * as React from 'react';
-import { ObjectsLayer } from '@/components/editor/ObjectsLayer';
-import { useSelector } from 'react-redux';
-import { getSnapToGrid } from '@/store/editor/params';
-import { GridLayer } from '@/components/editor/GridLayer';
-import { Toolbar } from '@/components/editor/Toolbar';
-import { Menubar } from '@/components/editor/Menubar';
-import { HumansLayer } from '@/components/editor/HumansLayer';
-import { useWasm } from '@/hooks/useWasm';
-import '@/styles/editor.scss';
-import { RoomsLayer } from '@/components/editor/RoomsLayer';
+import { useLocation } from 'react-router';
+import { Redirect } from 'react-router-dom';
+
+import { EditorProjectMiddleware } from '@/components/editor/middlewares/EditorProjectMiddleware';
+import { EditorLocationState } from '@/models/editor';
 
 export const Editor: React.FC = () => {
-  const snapToGrid = useSelector(getSnapToGrid);
-  const [WasmProvider, wasm] = useWasm();
-  const { state } = wasm;
+  const { state } = useLocation<EditorLocationState>();
+  const shouldRedirect = !state || !state.id;
 
-  return <div className="editor">
-    <WasmProvider value={wasm}>
-      {
-        state === 'pending' &&
-        <div className="editor__loader">
-          Loading WebAssembly...
-        </div>
-      }
-      {
-        state === 'ready' &&
-        <div className="editor__layout">
-          <div className="editor__menubar">
-            <Menubar/>
-          </div>
-          <div className="editor__toolbar">
-            <Toolbar/>
-          </div>
-          <div className="editor__canvas">
-            { snapToGrid && <GridLayer/> }
-            <HumansLayer/>
-            <RoomsLayer />
-            <ObjectsLayer/>
-          </div>
-        </div>
-      }
-    </WasmProvider>
-  </div>;
+  return shouldRedirect ? <Redirect to="/" /> : <EditorProjectMiddleware />;
 };

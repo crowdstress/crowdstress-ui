@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { SVGGroup } from '@/components/svg/SVGGroup';
+
 import { SVGObjectComponentProps } from '@/components/svg/props';
+import { SVGGroup } from '@/components/svg/SVGGroup';
 import { getClassName } from '@/utils/getClassName';
 
 export const SVGRect: React.FC<SVGObjectComponentProps> = ({ selected, onClick, object }) => {
@@ -16,10 +17,10 @@ export const SVGRect: React.FC<SVGObjectComponentProps> = ({ selected, onClick, 
   const width = Math.abs(dx);
   const height = Math.abs(dy);
   const props: React.SVGProps<SVGRectElement> = {
+    height,
+    width,
     x,
     y,
-    width,
-    height,
   };
   return <SVGGroup onClick={onClick}>
     <rect

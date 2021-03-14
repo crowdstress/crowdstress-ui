@@ -1,8 +1,8 @@
 import { DrawingObjectPoint } from '@/models/drawingObject';
 
 interface GetPointCoordsArgs {
-  snapToGrid: boolean;
   gridSize: number;
+  snapToGrid: boolean;
 }
 
 export const getPointCoords = (

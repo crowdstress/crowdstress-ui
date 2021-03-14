@@ -1,23 +1,22 @@
-import { Tool } from '@/models/tool';
-import { Undoable } from '@/models/undoable';
-import { DrawingObject } from '@/models/drawingObject';
 import { LayerSize } from '@/models/layer';
 import { Room } from '@/models/room';
-import { Human } from '@/models/human';
+import { Tool } from '@/models/tool';
 
 export interface EditorParams {
-  snapToNodes: boolean;
-  snapToGrid: boolean;
-  isLocked: boolean;
   drawing: boolean;
   gridSize: number;
+  isLocked: boolean;
   layerSize: LayerSize;
+  snapToGrid: boolean;
+  snapToNodes: boolean;
 }
 
 export interface Editor {
   params: EditorParams;
-  tool: Tool;
-  objects: Undoable<DrawingObject[]>;
   rooms: Room[];
-  humans: Human[];
+  tool: Tool;
+}
+
+export interface EditorLocationState {
+  id: number;
 }
