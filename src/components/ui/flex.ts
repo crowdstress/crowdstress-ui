@@ -21,4 +21,5 @@ export const flxJcc = join(flx, jcc);
 export const flxJcsb = join(flx, jcsb);
 
 export const flxAicJcc = join(flx, aic, jcc);
+export const flxAicJsb = join(flx, aic, jcsb);
 export const flxAicJcfs = join(flx, aic, jcfs);

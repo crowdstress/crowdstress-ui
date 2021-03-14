@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import { logOut } from '@/api/handlers/user';
 import IconLogout from '@/assets/svg/logout.svg';
 import { BLACK_COLOR, BORDER_COLOR, PRIMARY_COLOR, WHITE_COLOR } from '@/components/ui/colors';
-import { flxAicJcc } from '@/components/ui/flex';
+import { flxAicJcc, flxAicJsb } from '@/components/ui/flex';
 import { fontPrimaryLight } from '@/components/ui/fonts';
 import { getUser } from '@/store/app/selectors';
 import { setUser } from '@/store/app/user/actions';
@@ -19,7 +19,7 @@ const NavbarContainer = styled.nav`
   user-select: none;
   background: ${WHITE_COLOR};
   transition: background .25s ease-in-out, border .25s ease-in-out;
-  ${flxAicJcc};
+  ${flxAicJsb};
 `;
 
 const NavbarTitle = styled.div`
