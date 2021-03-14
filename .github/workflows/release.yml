@@ -40,8 +40,10 @@ jobs:
       - name: Lint
         run: npm run lint
 
-      - name: Build
-        run: npm run build:prod
+      - name: Build and save docker image
+        run: |
+          docker build -t crowdstress-ui .
+          docker save -o crowdstress-ui.tar crowdstress-ui:latest
 
       - name: Create release
         id: create_release
@@ -53,3 +55,13 @@ jobs:
           release_name: Release ${{ github.ref }}
           draft: false
           prerelease: false
+
+      - name: Upload docker image to release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: crowdstress-ui.tar
+          asset_name: crowdstress-ui.tar
+          asset_content_type: application/x-tar
