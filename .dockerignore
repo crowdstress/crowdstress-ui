@@ -1,0 +1,6 @@
+.git/
+.github/
+build/
+node_modules/
+.gitignore
+webpack.dev.ts
