@@ -32,7 +32,7 @@ export const EditorComponent: React.FC = () => {
     <EditorCanvas>
       { snapToGrid && <GridLayer/> }
       <HumansLayer/>
-      <RoomsLayer />
+      {/*<RoomsLayer />*/}
       <ObjectsLayer/>
     </EditorCanvas>
   </React.Fragment>;
