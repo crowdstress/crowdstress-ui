@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { GridLayer } from '@/components/editor/layers/GridLayer';
 import { HumansLayer } from '@/components/editor/layers/HumansLayer';
 import { ObjectsLayer } from '@/components/editor/layers/ObjectsLayer';
-import { RoomsLayer } from '@/components/editor/layers/RoomsLayer';
+// import { RoomsLayer } from '@/components/editor/layers/RoomsLayer';
 import { Actions } from '@/components/editor/modules/Actions';
 import { Params } from '@/components/editor/modules/Params';
 import { Running } from '@/components/editor/modules/Running';
