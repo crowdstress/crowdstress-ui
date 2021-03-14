@@ -42,7 +42,7 @@ const ProjectUpdatedAt = styled.div`
 
 export const Project: React.FC<ProjectProps> = ({ id, name, updatedAt, onClick }) =>
   <ProjectCard onClick={onClick}>
-    <ProjectThumbnail url={`/api/thumbnail/${id}`} />
+    <ProjectThumbnail url={`/api/thumbnails/${id}`} />
     <ProjectInfo>
       <ProjectName>{ name }</ProjectName>
       <ProjectUpdatedAt>{ getDateTime(updatedAt) }</ProjectUpdatedAt>

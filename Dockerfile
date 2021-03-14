@@ -8,4 +8,4 @@ RUN npm install && npm run build:prod
 FROM nginx AS bundler
 WORKDIR /app
 COPY nginx.conf /etc/nginx/conf.d/default.conf
-COPY --from=builder /app/build .
+COPY --from=builder /app/build ./build
